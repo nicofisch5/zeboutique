@@ -1,0 +1,88 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<?php $_font = Mage::getStoreConfig('themeoptions/themeoptions_config/font') ?>
+<link media="all" href="<?php echo $this->getSkinUrl()?>css/styles.css3.php?url=<?php echo $this->getSkinUrl()?>" type="text/css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=<?php echo str_replace(' ', '+', $_font); ?>:200,300,400,500,600,700,800' rel='stylesheet' type='text/css' />
+
+
+
+
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+
+<?php $_menu_style = Mage::getStoreConfig('themeoptions/themeoptions_config/menu_style'); ?>
+<?php $_link_color = Mage::getStoreConfig('themeoptions/themeoptions_config/link_color'); ?>
+<?php $_body_background = Mage::getStoreConfig('themeoptions/themeoptions_config/body_background'); ?>
+<?php $_bg_pattern = Mage::getStoreConfig('themeoptions/themeoptions_config/bg_pattern'); ?>
+
+
+<!-- MENU -->
+<?php if ( $_menu_style == 'wine_menu') { ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/wide_menu.css'); ?>" media="screen"/>
+<?php } else { ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/fish_menu.css'); ?>" media="screen"/>
+<?php } ?>
+
+<style type="text/css">
+
+    /*google font*/
+    <?php if ($_font) : ?>
+        .page-title h1, .page-title h2, .block .block-title strong, .products-grid .product-name, .products-list .product-name, .price-box .price, .product-view button.btn-cart span span, .related-title h2, .product-view .product-shop .product-name h1, .ma-footer-static-container-bottom .footer-static-title h3, .product-tabs a, .wine_menu a, .fish_menu a, .wine_menu ul li a, .ma-newproductslider-title h2, .ma-featured-vertscroller-wrap .product-name, .ma-newproductslider-container .flexslider .slides > li .item-inner .product-name { font-family: '<?php echo $_font; ?>';}
+    <?php endif; ?>
+    
+    <?php if($_link_color): ?>
+        button.button:hover span, button.btn-cart:hover span, button.btn-checkout span, .header .form-search button.button span, .products-grid .actions .link-wishlist:hover, .ma-newproductslider-container .flexslider .slides > li .item-inner .actions .link-wishlist:hover, .ma-newproductslider-container .flex-direction-nav .flex-next:hover, .ma-newproductslider-container .flex-direction-nav .flex-prev:hover, .ma-featured-vertscroller-wrap  .jcarousel-next-vertical:hover, .ma-featured-vertscroller-wrap  .jcarousel-prev-vertical:hover, .ma-thumbnail-container .flex-direction-nav .flex-next:hover, .ma-thumbnail-container .flex-direction-nav .flex-prev:hover, .ma-banner7-container .flex-control-paging li a:hover, .ma-banner7-container .flex-control-paging li a.flex-active, .product-prev:hover, .product-next:hover, .wine_menu li.active a, .fish_menu li.active a, .wine_menu li.over a, .fish_menu li.over a, .wine_menu a:hover, .fish_menu a:hover, .wine_menu .container, #back-top:hover, .block-subscribe .actions button.button span, .ma-newproductslider-container .label-box { background-color:<?php echo $_link_color ?>; }
+        .breadcrumbs li strong, .pager .pages a:hover, .pager .pages .current, .header .welcome-msg, .block-account .block-content li a:hover, .block-account .block-content li.current, .block-layered-nav li a:hover, .products-grid .product-name a:hover, .products-list .product-name a:hover, .ma-newproductslider-container .flexslider .slides > li .item-inner .product-name a:hover, .ma-featured-vertscroller-wrap .product-name a:hover, .regular-price, .regular-price .price, .block .regular-price, .block .regular-price .price, .special-price .price, .ma-footer-static-container-bottom .footer-static-content ul li a:hover, .product-view .product-shop .add-to-links a:hover, .email-friend a:hover, .product-tabs a:hover, .product-tabs li.active a, .product-tabs li.active a:hover { color:<?php echo $_link_color ?>; }
+    <?php endif; ?>
+
+    <?php if($_body_background): ?>
+        body { background-color: <?php echo $_body_background ?>;}
+    <?php endif; ?>
+    
+    <?php if($_bg_pattern): ?>
+        body { background-image: url(<?php echo $this->getSkinUrl('images/pattern/').$_bg_pattern.'.png' ?>) ; background-repeat: repeat; }
+    <?php endif; ?>   
+
+</style>

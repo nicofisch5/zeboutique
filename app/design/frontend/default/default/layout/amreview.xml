@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="right">
+            <block type="amreview/sidebar" name="amreview_sidebar" before="-"
+			template="amreview/sidebar.phtml"/>
+        </reference>
+<!-- begin: comment this block if you use 3colunms template -->
+        <reference name="left">
+            <block type="amreview/sidebar" name="amreview_sidebar" 
+                template="amreview/sidebar.phtml" />
+        </reference>
+<!-- end -->
+    </default>
+</layout>

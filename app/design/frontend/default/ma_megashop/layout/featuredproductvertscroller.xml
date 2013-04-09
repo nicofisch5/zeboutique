@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+	<cms_index_index>
+		<reference name="head">
+            <action method="addCss" ifconfig="featuredproductvertscroller/featuredproductvertscroller_config/enabled"><stylesheet>magentothem/css/ma.featuredvertscroller.css</stylesheet></action>			
+			<action method="addJs" ifconfig="featuredproductvertscroller/featuredproductvertscroller_config/enabled"><script>magentothem/ma.jq.slide.js</script></action>
+			<action method="addJs" ifconfig="featuredproductvertscroller/featuredproductvertscroller_config/enabled"><script>magentothem/ma.script.vert.js</script></action>
+		</reference>
+        <!--<reference name="left">-->
+        <!--    <block type="featuredproductvertscroller/featuredproductvertscroller" name="featured.vert.scroller.left" template="magentothem/featuredproductvertscroller/featuredscrollerleft.phtml" />-->
+        <!--</reference>-->
+        <!--<reference name="ma_vertscroller">-->
+        <!--    <block type="featuredproductvertscroller/featuredproductvertscroller" name="featured.vert.scroller.right" template="magentothem/featuredproductvertscroller/featuredscrollerright.phtml" />-->
+        <!--</reference>-->
+    </cms_index_index>
+</layout> 

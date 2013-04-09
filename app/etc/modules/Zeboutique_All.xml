@@ -1,0 +1,35 @@
+<config>
+    <modules>
+        <Zeboutique_Catalog>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Catalog/>
+            </depends>
+        </Zeboutique_Catalog>
+    
+        <Zeboutique_Core>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </Zeboutique_Core>
+    
+        <Zeboutique_Sales>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Sales/>
+            </depends>
+        </Zeboutique_Sales>
+        
+        <Zeboutique_Starnet>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Core/>
+            </depends>
+        </Zeboutique_Starnet>
+    </modules>
+</config>

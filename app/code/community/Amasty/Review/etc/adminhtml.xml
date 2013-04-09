@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config> 
+<acl>
+	<resources>
+		<all>
+			<title>Allow Everything</title>
+		</all>
+        <admin>
+            <children>
+                <system>
+                    <children>
+                        <config>
+                            <children>
+                                <amreview translate="title" module="amreview">
+                                    <title>Reviews Sidebar</title>
+                                </amreview>
+                            </children>
+                        </config>
+                    </children>
+                </system> 
+             </children>
+        </admin> 
+	</resources>
+</acl>
+<translate>
+    <modules>
+        <Amasty_Review>
+            <files>
+                <default>Amasty_Review.csv</default>
+            </files>
+        </Amasty_Review>
+    </modules>
+</translate>
+</config> 

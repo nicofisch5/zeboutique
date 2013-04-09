@@ -1,0 +1,68 @@
+<?php $this->getProducts() ?>
+<?php $_productCollection=$this->getProductCollection() ?>
+<div class="ma-brand-slider-contain"> 
+    <?php
+        $slide = $this->getDataBrandslider();
+		$path = Mage::getBaseUrl('media');	
+        $width_slider = $this->getConfig('width_slider');
+        $height_slider = $this->getConfig('height_slider');
+        $items = $this->getConfig('items');
+        $w_item = $width_slider/$items;
+        $qty_Item = $this->getConfig('qty');
+        /* Get max item & qty item */
+        if ($qty_Item > count($slide)) {
+            $qty_Item = count($slide);
+        }
+        $w_thumbnail = $this->getConfig('width_thumbnail');
+        $h_thumbnail = $this->getConfig('height_thumbnail');
+    ?>
+        <div class="ma-brand-slider">			
+            <ul id ="ma-brandpro-slider" class="brand-slider">
+				<?php
+					$i = 1;
+					foreach($slide as $s)
+					{
+						if($i <= $qty_Item) {
+							//Get images slide show
+							$st1 = $s['image'];
+							$p1 = strpos($st1,'brandslider');
+							$st2 = substr($st1,$p1+11);
+							$p2 = strpos($st2,'"');
+							$imag = substr($st2,0,$p2);
+				?>
+                    <li class="item <?php if($i==1): ?> first<?php endif; ?>" style="width:<?php echo $w_item; ?>px">						    																																		    <?php if( $s['link'] ) { ?>
+							<a href="<?php echo $s['link']?>" title=""><img src="<?php echo $path.'magentothem/brandslider'.$imag;?>" <?php if($w_thumbnail) { ?> width="<?php echo $w_thumbnail;?>" <?php } if ($h_thumbnail) { ?> height="<?php echo $h_thumbnail;?>" <?php } ?>   alt="" /></a>												
+						<?php } else { ?>
+							<img src="<?php echo $path.'magentothem/brandslider'.$imag;?>" <?php if($w_thumbnail) { ?> width="<?php echo $w_thumbnail;?>" <?php } if ($h_thumbnail) { ?> height="<?php echo $h_thumbnail;?>" <?php } ?>   alt="" />
+						<?php } ?>																																	             
+                        <?php if( $this->getConfig('description')): ?>
+                            <div class="ma-des">
+                                <div class="ma-des-title"><h2><?php echo $s['title'] ?></h2></div>
+                                <div class="ma-des-content"><?php echo $s['description'] ?></div>
+                            </div>
+                        <?php endif; ?>
+                    </li>
+				<?php
+                    }//end if
+					$i++;
+                    } // end foreach
+				?>
+            </ul>
+            <script type="text/javascript">
+            //<![CDATA[
+				
+                $jq(document).ready(function() {
+                    $jq('#ma-brandpro-slider').jcarousel({
+                        auto: <?php echo $this->getConfig('auto');?>,
+                        wrap: 'circular',
+			animation: <?php echo $this->getConfig('animation'); ?>,
+                        scroll: <?php echo $this->getConfig('items_scroll');?>
+                    });
+                });
+                $jq(".ma-brand-slider-contain")
+                    .css("width","<?php echo $width_slider; ?>px")
+                    .css("height","<?php echo $height_slider; ?>px");
+            //]]>
+            </script>
+        </div>		
+</div> 

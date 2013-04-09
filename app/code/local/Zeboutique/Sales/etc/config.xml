@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Sales>
+            <version>0.1.0</version>
+        </Zeboutique_Sales>
+    </modules>
+    
+    <global>
+         <models>
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>Zeboutique_Sales_Model_Order_Pdf_Invoice</order_pdf_invoice>
+                </rewrite>
+            </sales>
+        </models>
+    </global>
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Zeboutique_Sales>
+                    <files>
+                        <zeboutique>Zeboutique_Sales.csv</zeboutique>
+                    </files>
+                </Zeboutique_Sales>
+            </modules>
+        </translate>
+    </adminhtml>
+    
+    <frontend>
+        <translate>
+            <modules>
+                <Zeboutique_Sales>
+                    <files>
+                        <zeboutique>Zeboutique_Sales.csv</zeboutique>
+                    </files>
+                </Zeboutique_Sales>
+            </modules>
+        </translate>
+    </frontend>
+</config>

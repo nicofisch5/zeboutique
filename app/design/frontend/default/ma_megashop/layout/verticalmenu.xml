@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addJs" ifconfig="verticalmenu/verticalmenu_config/enabled"><script>magentothem/ma.jq.slide.js</script></action>
+            <action method="addJs" ifconfig="verticalmenu/verticalmenu_config/enabled"><script>magentothem/verticalmenu/ma.dropdown.js</script></action>
+            <action method="addJs" ifconfig="verticalmenu/verticalmenu_config/enabled"><script>magentothem/verticalmenu/ma.accordion.js</script></action>
+            <action method="addCss" ifconfig="verticalmenu/verticalmenu_config/enabled"><stylesheet>magentothem/css/ma.verticalmenu.css</stylesheet></action>
+        </reference>
+        <reference name="left">
+            <block type="verticalmenu/verticalmenu" before="-" name="ma.verticalmenuleft" template="magentothem/verticalmenu/verticalmenuleft.phtml" />
+        </reference>
+        <reference name="right">
+            <block type="verticalmenu/verticalmenu" before="-" name="ma.verticalmenuright" template="magentothem/verticalmenu/verticalmenuright.phtml" />
+        </reference>
+    </default>
+</layout> 

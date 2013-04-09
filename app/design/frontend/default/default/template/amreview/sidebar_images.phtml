@@ -1,0 +1,44 @@
+<?php $reviews = $this->getReviews() ?>
+<?php if ($reviews && $reviews->count() > 0) : ?>
+<div class="block block-review">
+    <div class="block-title">
+        <strong><span><?php echo $this->__("Product's Reviews") ?></span></strong>
+    </div>
+    <div class="block-content">
+        <?php foreach ($reviews as $review): ?>
+        <table width="100%" border="0" >
+        <tr>
+            <td width="55px">
+                <a href="<?php echo $review->getUrl()?>"><img src="<?php echo $this->helper('catalog/image')->init($review, 'thumbnail')->resize(50) ?>" alt="<?php echo $this->htmlEscape($review->getName()) ?>" width="50" height="50" /></a>
+            <td>
+            <td align="left">
+                <p class="product-name"><a href="<?php echo $review->getUrl()?>"><?php echo $this->htmlEscape($review->getName()) ?></a></p>
+                <?php echo $this->__('Review by %s', $this->htmlEscape($review->getNickname()))?>
+            <td>
+        </tr>
+        </table>
+        <?php if (count($review->getRatingVotes())): ?>
+        <table class="ratings-list" cellspacing="0">
+            <tbody>
+                <?php foreach ($review->getRatingVotes() as $_vote): ?>
+                <tr>
+                    <td class="label"><strong><?php echo $_vote->getRatingCode() ?></strong>:</td>
+                    <td>
+                        <div class="rating-box">
+                            <div class="rating" style="width: <?php echo $_vote->getPercent() ?>%;"></div>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+        <br />
+        <?php endif;?>
+        <strong><?php echo $this->htmlEscape($review->getTitle())?></strong>.<br/>
+        <?php echo $this->htmlEscape($review->getDetail())?>
+        <br />                
+        <?php endforeach ?>
+    </div>
+</div>
+<?php endif ?>
