@@ -9,3 +9,10 @@ media/js/*
 media/css/*.css
 errors/local.xml
 app/etc/local.xml
+.buildpath
+.project
+.settings/
+LICENSE.html
+LICENSE.txt
+LICENSE_AFL.txt
+RELEASE_NOTES.txt
