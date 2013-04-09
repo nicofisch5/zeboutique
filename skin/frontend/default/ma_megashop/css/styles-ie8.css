@@ -1,0 +1,10 @@
+.header .form-search { width: 216px; }
+.header .form-search input.input-text { width: 162px; }
+.banner-static .banner-static2 { margin-top: 15px; }
+.ma-featured-vertscroller-wrap .product-image{ width:135px; }
+.block-subscribe .input-box { width: 155px; }
+.ma-featured-vertscroller-wrap .jcarousel-container-vertical,
+.ma-featured-vertscroller-wrap .jcarousel-clip-vertical {
+    height: 389px !important;
+}
+.product-view .product-img-box .more-views li a { width: 80px; height: 80px; }

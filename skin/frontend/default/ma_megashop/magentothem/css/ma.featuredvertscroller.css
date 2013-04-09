@@ -1,0 +1,113 @@
+.ma-featured-vertscroller-wrap{
+
+}
+.ma-featured-vertscroller-wrap .ma-featured-vertscoller-title{
+	padding: 0 0 11px;
+}
+.ma-featured-vertscroller-wrap .ma-featured-vertscoller-content{
+	padding:25px 0 0;
+}
+.ma-featured-vertscroller-wrap .ma-featured-vertscroller-title strong{
+}
+.ma-featured-vertscroller-wrap .jcarousel-container {
+}
+#ma-featured-vertscroller-right, #ma-featured-vertscroller-left {
+	height: 5555px !important;
+}
+
+.ma-featured-vertscroller-wrap  .jcarousel-container-vertical {
+    width: 100% !important;
+    height: 345px;
+    padding: 0;
+}
+.ma-featured-vertscroller-wrap  .jcarousel-clip {
+    overflow: hidden;
+}
+.ma-featured-vertscroller-wrap  .jcarousel-clip-vertical {
+    width: 100% !important;
+    height: 345px;
+}
+.ma-featured-vertscroller-wrap  .jcarousel-item {
+    width: 172px;
+    height: 130px;
+}
+.ma-featured-vertscroller-wrap .product-image {
+	float: left;
+	margin: 0 15px 0 0;
+}
+.ma-featured-vertscroller-wrap .product-image img{
+	width:100%;
+}
+.ma-featured-vertscroller-wrap .product-name  {
+	padding:10px 0 7px;
+	margin:0;
+	font-family:TwCenMT;
+	font-size:20px;
+	line-height:20px;
+	text-transform:uppercase;
+}
+.ma-featured-vertscroller-wrap .product-name a{
+
+}
+.ma-featured-vertscroller-wrap .ma-desc{
+	color:#666;
+	font-size:12px;
+}
+.ma-featured-vertscroller-wrap .price-box{
+	display:block;
+	margin:10px 0 0;
+}
+.ma-featured-vertscroller-wrap .price-box .old-price{
+	display:inline-block;
+	margin:0 20px 0 0;
+}
+.ma-featured-vertscroller-wrap .price-box .old-price .price,
+.ma-featured-vertscroller-wrap .price-box .special-price .price{
+	font-size:20px;
+}
+.ma-featured-vertscroller-wrap .price-box .special-price{
+	display:inline-block;
+	margin:0;
+	padding:0;
+}
+.ma-featured-vertscroller-wrap  .jcarousel-item-placeholder {
+    background: #fff;
+    color: #000;
+}
+.ma-featured-vertscroller-wrap .block-content li.item {
+	padding: 0 0 5px;
+	width: 100% !important;
+	height:auto !important;
+	border-bottom:1px solid #d9d9d9;
+	margin: 5px 0 0;
+}
+
+/**
+ *  Vertical Buttons
+ */
+.ma-featured-vertscroller-wrap .jcarousel-next-vertical, 
+.ma-featured-vertscroller-wrap  .jcarousel-prev-vertical {
+	position: absolute;
+	right: 0;
+	cursor: pointer;
+	display: block;
+	text-indent: -9999px;
+    height: 26px;
+    width: 26px;
+	top: -60px;
+}
+.ma-featured-vertscroller-wrap .jcarousel-next-vertical {
+
+}
+
+.ma-featured-vertscroller-wrap  .jcarousel-next-vertical:hover,
+.ma-featured-vertscroller-wrap  .jcarousel-next-vertical:focus {
+	
+}
+.ma-featured-vertscroller-wrap  .jcarousel-prev-vertical {
+	right: 32px;
+}
+.ma-featured-vertscroller-wrap  .jcarousel-prev-vertical:hover,
+.ma-featured-vertscroller-wrap  .jcarousel-prev-vertical:focus {
+
+}
