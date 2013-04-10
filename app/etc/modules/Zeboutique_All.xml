@@ -1,5 +1,13 @@
 <config>
     <modules>
+        <Zeboutique_Adminhtml>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+            </depends>
+        </Zeboutique_Adminhtml>
+    
         <Zeboutique_Catalog>
             <active>true</active>
             <codePool>local</codePool>
