@@ -58,4 +58,33 @@
             </starnet>
         </routers>
     </frontend>
+    
+    <crontab>
+        <jobs>
+            <starnet_stock_update1>
+                <schedule>
+                    <cron_expr>00 05 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>starnet/stock::updateStock</model>
+                </run>
+            </starnet_stock_update1>
+            <starnet_stock_update2>
+                <schedule>
+                    <cron_expr>00 11 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>starnet/stock::updateStock</model>
+                </run>
+            </starnet_stock_update2>
+            <starnet_stock_update3>
+                <schedule>
+                    <cron_expr>30 16 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>starnet/stock::updateStock</model>
+                </run>
+            </starnet_stock_update3>
+        </jobs>
+    </crontab>
 </config>

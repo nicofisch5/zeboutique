@@ -66,8 +66,6 @@ class Zeboutique_Starnet_Model_Stock extends Zeboutique_Zcore_Model_Stock
      */
     protected function _prepareData()
     {
-        $this->_updatedRows = 0;
-        
         $io = $this->_getCsvStream();
         
         try {
