@@ -15,11 +15,23 @@ class Magentothem_Mostviewedproduct_Block_Mostviewedproduct extends Mage_Catalog
     }
 	public function getProducts()
     {
-		$_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        $_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        if (! ($catFilter = Mage::registry('store_category_filter'))) {
+            $catFilter = Mage::helper('mostviewedproduct')->getStoreCategoryFilter($_rootcatID);
+            Mage::register('store_category_filter', $catFilter);
+        }
+		
     	$storeId    = Mage::app()->getStore()->getId();
 		//$products = Mage::getResourceModel('reports/product_collection')
 		$products = Mage::getResourceModel('catalog/product_collection')
-			->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
+			->joinField(
+				'category_id',
+				'catalog/category_product',
+				'',
+				'product_id=entity_id AND category_id IN ('.$catFilter.')',
+			    null,
+			    'inner'
+			)
             ->addAttributeToSelect('*')
 			->addMinimalPrice()
 			->addUrlRewrite()
@@ -27,13 +39,16 @@ class Magentothem_Mostviewedproduct_Block_Mostviewedproduct extends Mage_Catalog
             ->addAttributeToSelect(array('name', 'price', 'small_image')) //edit to suit tastes
             ->setStoreId($storeId)
             ->addStoreFilter($storeId)
-			->addAttributeToFilter('category_id', array('in' => $_rootcatID))
             //->addViewsCount()
-            ;			
+            ;
+
+        $products->getSelect()->distinct(true);
+            
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
         $products->setPageSize($this->getConfig('qty'))->setCurPage(1);
 		$products->getSelect()->order('rand()');
+//echo $products->getSelect();
         $this->setProductCollection($products);
     }
 	public function getConfig($att) 

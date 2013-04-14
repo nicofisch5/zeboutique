@@ -15,20 +15,33 @@ class Magentothem_Newproductslider_Block_Newproductslider extends Mage_Catalog_B
     }
 	public function getProducts()
     {
-		$_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        $_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        if (! ($catFilter = Mage::registry('store_category_filter'))) {
+            $catFilter = Mage::helper('mostviewedproduct')->getStoreCategoryFilter($_rootcatID);
+            Mage::register('store_category_filter', $catFilter);
+        }
+		
 		$todayDate  = Mage::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
     	$storeId    = Mage::app()->getStore()->getId();
 		$products = Mage::getResourceModel('catalog/product_collection')
-			->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
+			->joinField(
+				'category_id',
+				'catalog/category_product',
+				'',
+				'product_id=entity_id AND category_id IN ('.$catFilter.')',
+			    null,
+			    'inner'
+			)
 			->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
 			->addMinimalPrice()
 			->addUrlRewrite()
 			->addTaxPercents()
 			->addStoreFilter()
-			->addAttributeToFilter('category_id', array('in' => $_rootcatID))
 			->addAttributeToFilter('news_from_date', array('date'=>true, 'to'=> $todayDate))
 			->addAttributeToFilter(array(array('attribute'=>'news_to_date', 'date'=>true, 'from'=>$todayDate), array('attribute'=>'news_to_date', 'is' => new Zend_Db_Expr('null'))),'','left')
-			->addAttributeToSort('news_from_date','desc');		
+			->addAttributeToSort('news_from_date','desc');
+
+        $products->getSelect()->distinct(true);
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
         $products->setPageSize($this->getConfig('qty'))->setCurPage(1);

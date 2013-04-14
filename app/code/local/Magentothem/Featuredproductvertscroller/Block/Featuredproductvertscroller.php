@@ -16,16 +16,29 @@ class Magentothem_Featuredproductvertscroller_Block_Featuredproductvertscroller 
     }
 	public function getProducts()
     {
-		$_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        $_rootcatID = Mage::app()->getStore()->getRootCategoryId();
+        if (! ($catFilter = Mage::registry('store_category_filter'))) {
+            $catFilter = Mage::helper('mostviewedproduct')->getStoreCategoryFilter($_rootcatID);
+            Mage::register('store_category_filter', $catFilter);
+        }
+		
     	$storeId    = Mage::app()->getStore()->getId();
 		$products = Mage::getResourceModel('catalog/product_collection')
-			->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
+			->joinField(
+				'category_id',
+				'catalog/category_product',
+				'',
+				'product_id=entity_id AND category_id IN ('.$catFilter.')',
+			    null,
+			    'inner'
+			)
 			->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
 			->addMinimalPrice()
 			->addStoreFilter()
 			->setOrder($this->getConfig('sort'),$this->getConfig('direction'))
-			->addAttributeToFilter('category_id', array('in' => $_rootcatID))
-			->addAttributeToFilter("featured", 1);		
+			->addAttributeToFilter("featured", 1);
+
+        $products->getSelect()->distinct(true);
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
         $products->setPageSize($this->getConfig('qty'))->setCurPage(1);

@@ -53,9 +53,9 @@
 							<?php if( $this->getConfig('description')){?>
 								<div class="ma-desc">
 									<?php if(!$this->getConfig('maxlength')){?>
-										<?php echo nl2br($this->htmlEscape($_product->getShortDescription())) ?>
+										<?php echo nl2br($_product->getShortDescription()) ?>
 									<?php } else {?>
-										<?php echo nl2br(cut_string_vertfeaturedscroller($this->htmlEscape($_product->getShortDescription()),$this->getConfig('maxlength'))) ?>			            
+										<?php echo nl2br(cut_string_vertfeaturedscroller($_product->getShortDescription()),$this->getConfig('maxlength')) ?>			            
 									<?php }?>			                    
 								</div>
 							<?php }?>
