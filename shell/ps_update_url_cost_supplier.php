@@ -36,7 +36,7 @@ require_once 'abstract.php';
 class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
 {
     
-    const FILENAME = 'ps_product.csv';
+    const FILENAME = 'ps_product_costume.csv';
     
     protected $_attributeOptions = array();
     
@@ -180,9 +180,9 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
                         $prdChild = Mage::getModel('catalog/product')->load($childId);
                         $prdChild->setData('cost', $csvLine[2])
                                 ->setData('supplier', $this->_getAttributeOptionIdByValue('supplier', $csvLine[3]))
-                                ->setData('price', $csvLine[4])
+                                //->setData('price', $csvLine[4])
                                 ->save();
-                        Mage::log('SKU '.$prdChild->getData('sku'). ' (simple) mis à jour (cost, supplier, price)');
+                        Mage::log('SKU '.$prdChild->getData('sku'). ' (simple) mis à jour (cost, supplier)');
                     }
                     
                 }
@@ -191,9 +191,9 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
                 $prd->setData('ps_url', $csvLine[1])
                      ->setData('cost', $csvLine[2])
                      ->setData('supplier', $this->_getAttributeOptionIdByValue('supplier', $csvLine[3]))
-                     ->setData('price', $csvLine[4])
+                     //->setData('price', $csvLine[4])
                      ->save();
-                Mage::log('SKU '.$csvLine[0]. ' (configurable) mis à jour (ps_url, cost, supplier, price)');
+                Mage::log('SKU '.$csvLine[0]. ' (configurable) mis à jour (ps_url, cost, supplier)');
 
                 $this->_updatedRows++;
             }
