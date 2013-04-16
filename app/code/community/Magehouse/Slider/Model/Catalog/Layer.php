@@ -47,8 +47,14 @@ class Magehouse_Slider_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
         }
 		
 		/*PRICE SLIDER FILTER*/
-		$max=$_GET['max'];
-		$min=$_GET['min'];
+        $max = null;
+        $min = null;
+        if (isset($_GET['max'])) {
+		    $max=$_GET['max'];
+        }
+        if (isset($_GET['min'])) {
+		    $min=$_GET['min'];
+        }
 		
 		//print_r($collection->getData());
 		
