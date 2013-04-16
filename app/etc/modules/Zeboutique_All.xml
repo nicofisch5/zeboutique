@@ -39,5 +39,13 @@
                 <Zeboutique_Core/>
             </depends>
         </Zeboutique_Starnet>
+        
+        <Zeboutique_Silamoda>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Core/>
+            </depends>
+        </Zeboutique_Silamoda>
     </modules>
 </config>

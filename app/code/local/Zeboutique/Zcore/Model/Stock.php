@@ -43,6 +43,27 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
     protected function _prepareData() {}
     
     /**
+     * Is product type simple
+     *
+     * @param int $prdId
+     * @return bool
+     */
+    protected function _isTypeSimple($prdId)
+    {
+        // Table name
+        $productTable = $this->_getResource()->getTableName('catalog/product');
+
+        // Query
+        $query = "SELECT type_id FROM $productTable
+        WHERE entity_id = ".$prdId;
+        
+        $res = $this->_getReadConnection()->query($query)
+                        ->fetch();
+
+        return $res['type_id'] == 'simple';
+    }
+    
+    /**
      * Set stock data
      *
      * @param int $prdId
@@ -163,6 +184,11 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
                     Zend_Log::ERR
                 );*/
                 
+                continue;
+            }
+            
+            // Check product type
+            if (! $this->_isTypeSimple($productId)) {
                 continue;
             }
             
