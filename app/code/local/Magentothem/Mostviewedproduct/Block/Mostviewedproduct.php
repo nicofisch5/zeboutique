@@ -28,8 +28,8 @@ class Magentothem_Mostviewedproduct_Block_Mostviewedproduct extends Mage_Catalog
 				'category_id',
 				'catalog/category_product',
 				'',
-				'product_id=entity_id AND category_id IN ('.$catFilter.')',
-			    null,
+				'product_id=entity_id',
+			    'category_id IN ('.$catFilter.')',
 			    'inner'
 			)
             ->addAttributeToSelect('*')

@@ -28,8 +28,8 @@ class Magentothem_Newproductslider_Block_Newproductslider extends Mage_Catalog_B
 				'category_id',
 				'catalog/category_product',
 				'',
-				'product_id=entity_id AND category_id IN ('.$catFilter.')',
-			    null,
+				'product_id=entity_id',
+			    'category_id IN ('.$catFilter.')',
 			    'inner'
 			)
 			->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
