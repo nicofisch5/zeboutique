@@ -4,6 +4,8 @@ var/session/*
 var/log/*
 var/locks/*
 var/report/*
+media/import/*
+media/tmp/*
 media/catalog/category/*
 media/catalog/product/*
 media/js/*
