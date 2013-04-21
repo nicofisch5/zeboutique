@@ -15,6 +15,14 @@
                 <Mage_Catalog/>
             </depends>
         </Zeboutique_Catalog>
+        
+        <Zeboutique_Chantefeuille>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Core/>
+            </depends>
+        </Zeboutique_Chantefeuille>
     
         <Zeboutique_Core>
             <active>true</active>

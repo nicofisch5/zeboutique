@@ -14,7 +14,8 @@ class Magentothem_Mostviewedproduct_Helper_Data extends Mage_Core_Helper_Abstrac
         $catColl = Mage::getModel('catalog/category')->getCollection()
                         ->addFieldToFilter('path', array('like'=>'%/'.$rootcatId.'/%'))
                         ->addAttributeToFilter('is_active', 1)
-                        ->addStoreFilter();
+                        //->addStoreFilter()
+        ;
 
         if ($catColl->getSize()) {
             return implode(',', $catColl->getAllIds());
