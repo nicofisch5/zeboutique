@@ -122,8 +122,8 @@ class Zeboutique_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Blo
             $collection->addAttributeToSelect('price');
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
-            $collection->joinAttribute('supplier', 'catalog_product/supplier', 'entity_id', null, 'inner');
-            $collection->joinAttribute('manufacturer', 'catalog_product/manufacturer', 'entity_id', null, 'inner');
+            $collection->joinAttribute('supplier', 'catalog_product/supplier', 'entity_id', null, 'left');
+            $collection->joinAttribute('manufacturer', 'catalog_product/manufacturer', 'entity_id', null, 'left');
         }
 
         $this->setCollection($collection);
