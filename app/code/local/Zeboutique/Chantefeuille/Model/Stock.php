@@ -65,11 +65,16 @@ class Zeboutique_Chantefeuille_Model_Stock extends Zeboutique_Zcore_Model_Stock
         $io = $this->_getCsvStream();
         
         try {
-            $rowNumber  = 1;
-            $importData = array();
-
             while (false !== ($csvLine = $io->streamReadCsv(";"))) {
-                $this->_stockData[] = array($csvLine[2], $csvLine[6]);
+                // Before injecting data we check if SKU already exists in file
+                if (array_key_exists($csvLine[2], $this->_stockData)) {
+                    // If exists we check label
+                    if (substr($csvLine[3], 0, 7) == 'Maillot') {
+                        continue;
+                    }
+                }
+
+                $this->_stockData[$csvLine[2]] = array($csvLine[2], $csvLine[6]);
             }
         } catch (Mage_Core_Exception $e) {
             $adapter->rollback();
@@ -81,7 +86,7 @@ class Zeboutique_Chantefeuille_Model_Stock extends Zeboutique_Zcore_Model_Stock
             Mage::logException($e);
             echo 'Erreur : '.$e->getMessage();
         }
-        
+
         return $this;
     }
 }

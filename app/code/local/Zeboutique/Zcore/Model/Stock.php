@@ -172,7 +172,7 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
     protected function _processToUpdateStock()
     {
         $productInstance = Mage::getModel('catalog/product');
-        foreach ($this->_stockData as $line) {
+        foreach ($this->_stockData as $lineId => $line) {
             $sku = $line[0];
             $qty = $line[1];
             
