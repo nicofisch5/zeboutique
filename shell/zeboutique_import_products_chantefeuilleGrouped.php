@@ -53,10 +53,10 @@ class Zeboutique_Shell_ImportProducts_ChantefeuilleGrouped extends Zeboutique_Sh
     protected $_attTSGId = 163;
     protected $_attCouleurId = 158;
 
-    protected $_attHautCode = 'c2c_haut';
-    protected $_attBasCode = 'c2c_bas';
+    protected $_attHautCode = 'c2c_haut_mdb';
+    protected $_attBasCode = 'c2c_bas_mdb';
     protected $_attTSGCode = 'taille_soutien_gorge';
-    protected $_attCouleurCode = 'c2c_couleur';
+    protected $_attCouleurCode = 'c2c_couleur_mdb';
 
 
     /**
@@ -78,19 +78,28 @@ class Zeboutique_Shell_ImportProducts_ChantefeuilleGrouped extends Zeboutique_Sh
             // Configurable associated products
             $simpleProductIds = array();
             $attributeIds = array();
+            $simpleImages = array();
 
             while (false !== ($csvLine = $io->streamReadCsv(";"))) {
                 $sku = $csvLine[2];
-                $simpleSku = $sku;
 
                 // We explode to get master SKU
                 $masterSku = explode('-', $sku);
-                $masterSku = substr($masterSku[0], 0, -1);
 
+                $masterSkuSuffix = strtolower(substr($masterSku[0], -1, 1));
+                if ($masterSkuSuffix == 'h' || $masterSkuSuffix == 'b') {
+                    $masterSku = substr($masterSku[0], 0, -1);
+                } else {
+                    $masterSku = $masterSku[0];
+                }
+
+                $skuSuffix = 1;
                 // If SKU already exists
-                if ($prdInstance->getIdBySku($masterSku)) {
-                    echo "\n\n SKU grouped $masterSku déjà existante";
-                    continue;
+                while ($prdInstance->getIdBySku($masterSku)) {
+                    echo "\n\n SKU grouped $masterSku déjà existante - Renommage";
+                    $skuSuffix++;
+                    $masterSku = array_shift(explode('---', $masterSku));
+                    $masterSku .= '---'.$skuSuffix;
                 }
 
 echo "masterSku : $masterSku \n";
@@ -126,20 +135,21 @@ echo "process grouped \n";
                             ->setCategoryIds($this->_catIds)
                             ->setData($attCodeCouleur, $couleurId);
 
-                        try {
-                            // Set image to grouped
-                            $gProduct->addImageToMediaGallery(
-                                $this->_dirMediaImport.$previousImageName,
-                                array(
-                                    'image',
-                                    'small_image',
-                                    'thumbnail'
-                                ),
-                                false,
-                                false
-                            );
-                        } catch (Exception $e) {
-                            echo "$this->_dirMediaImport.$previousImageName does not exist";
+                        $affectation = array('image', 'small_image', 'thumbnail');
+                        foreach ($simpleImages as $simpleImage) {
+                            try {
+                                // Set images to grouped
+                                $gProduct->addImageToMediaGallery(
+                                    $this->_dirMediaImport.$simpleImage,
+                                    $affectation,
+                                    false,
+                                    false
+                                );
+
+                                $affectation = array();
+                            } catch (Exception $e) {
+                                echo "$this->_dirMediaImport.$previousImageName does not exist";
+                            }
                         }
 
                         // Add related product
@@ -162,6 +172,7 @@ echo "process grouped \n";
 
                         // Erase associated
                         $simpleProductIds = array();
+                        $simpleImages = array();
                         $attributeIds = array();
                         $position = 0;
                     }
@@ -238,7 +249,7 @@ echo "process grouped \n";
                     'name' => $initLabel,
                     'short_description' => $initLabel,
                     'description' => $csvLine[4],
-                    'price' => $csvLine[5] * 2,
+                    'price' => $csvLine[5] * 2.35,
                     'cost' => $csvLine[5],
                     'image' => 'no_selection',
 	                'small_image' => 'no_selection',
@@ -265,6 +276,10 @@ echo "process grouped \n";
                 if ($previousImageName != $imageName) {
                     $this->_getImageByUrl($csvLine[7], $imageName);
                     $previousImageName = $imageName;
+                }
+
+                if (! in_array($imageName, $simpleImages)) {
+                    $simpleImages[] = $imageName;
                 }
 
                 // Add image to product

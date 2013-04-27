@@ -40,23 +40,11 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
     const URL_STOCK_FILE = 'http://www.starnet-world.com/stock_starnet.csv';
     const URL_TARIF_FILE = 'http://www.starnet-world.com/files/tarifs_clients_2013.xlsx';
     const STARNET_OPTION_ID = 311;
+
+    // C2c_Couleur_eros
+    protected $_attSet = 20;
     
-    // C2c_Couleur_Taille_pap
-    //protected $_attSet = 10; protected $_attArray = array('c2c_taille_pap', 'c2c_couleur_pap');
-    
-    // C2c_Couleur_pap
-    //protected $_attSet = 14; protected $_attArray = array('c2c_couleur_pap');
-    
-    // C2c_Taille_pap
-    //protected $_attSet = 16; protected $_attArray = array('c2c_taille_pap');
-    
-    // C2c_Couleur
-    //protected $_attSet = 20; protected $_attArray = array('c2c_couleur');
-    
-    // C2c_Couleur_Taille
-    protected $_attSet = 26;
-    
-    protected $_taille = array(
+    /*protected $_taille = array(
         'ps' => 'Grande Taille Unique',
         'l' => 'L-40',
         'lxl' => 'L/XL',
@@ -70,6 +58,21 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
         'xs' => 'XS-34',
         'xxl' => 'XXL-44',
         'xxlxxxl' => 'XXXL-46'
+    );*/
+
+    protected $_taille = array(
+        //'ps' => 'Grande Taille Unique',
+        'l' => 'L-40',
+        'lxl' => 'L/XL',
+        'os' => 'Taille Unique',
+        'm' => 'M-38',
+        'ml' => 'M/L',
+        's' => 'S-36',
+        'sm' => 'S/M',
+        'xl' => 'XL-42',
+        //'xs' => 'XS-34',
+        'xxl' => 'XXL-44',
+        //'xxlxxxl' => 'XXXL-46'
     );
   
     /**
@@ -128,6 +131,7 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
 
                 // Skip line if no product in Magento
                 if ($coll->getSize() == 0) {
+                    //echo "Ref non trouvée ".$csvLine[0]." \n";
                     continue;
                 }
 
@@ -139,41 +143,40 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
                     //$starnetLabel = strtolower($csvLine[2]);
 
                     // Regex to find color and size
-                    preg_match('@couleur.?:.?(.*) \/.?taille.?:.?(.*)@i', $csvLine[2], $matches);
+                    //preg_match('@couleur.?:.?(.*) \/.?taille.?:.?(.*)@i', $csvLine[2], $matches);
+                    preg_match('@couleur.?:.?(.*)@i', $csvLine[2], $matches);
                     $couleur = strtolower($matches[1]);
-                    $taille = strtolower($matches[2]);
-
-                    //preg_match('@couleur.?:.?(.*)@i', $csvLine[2], $matches);
-                    //$couleur = strtolower($matches[1]);
+                    //$taille = strtolower($matches[2]);
                     
-                        $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur'));
-                        $prdTaille = $prd->getAttributeText('c2c_taille');
-                        if (! $prdCouleur || ! $prdTaille) {
-                            continue;
-                        }
-                        
-                        // Check couleur
-                        if (strstr($couleur, $prdCouleur) === false) {
-                            continue;
-                        }
-                        
-                        // Check taille
-                        if (! array_key_exists($taille, $this->_taille)) {
-                            echo 'Taille non trouvée';
-                            continue;
-                        }
-                        
-                        if ($this->_taille[$taille] != $prdTaille) {
-                            continue;
-                        }
+                    $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur_eros'));
+                    //$prdTaille = $prd->getAttributeText('c2c_taille_mdb');
+                    if (! $prdCouleur/* || ! $prdTaille*/) {
+                        continue;
+                    }
+
+                    // Check couleur
+                    if (strstr($couleur, $prdCouleur) === false) {
+                        echo $csvLine[0].' Couleur non trouvée '.$couleur." ".$prdCouleur;exit;
+                        continue;
+                    }
+
+                    // Check taille
+                    /*if (! array_key_exists($taille, $this->_taille)) {
+                        //echo 'Taille non trouvée '.$taille;exit;
+                        continue;
+                    }
+
+                    if ($this->_taille[$taille] != $prdTaille) {
+                        continue;
+                    }*/
                     
                     // Update SKU
                     $this->_updatedRows++;
-                    //$msg = $csvLine[2]." - $prdCouleur - $prdTaille - (".$prd->getId().") \n";
-                    $msg = $csvLine[2]." - $prdCouleur - (".$prd->getId().") \n";
+                    $msg = $csvLine[2]." - $prdCouleur - $prdTaille - (".$prd->getId().") \n";
+                    //$msg = $csvLine[2]." - $prdCouleur - (".$prd->getId().") \n";
                     echo $msg;
-                    /*Mage::log($msg);
-                    $prd->setData('sku', $csvLine[1])
+                    Mage::log($msg);
+                    /*$prd->setData('sku', $csvLine[1])
                         ->setData('starnet_sku_updated', 1)
                         ->setData('supplier', self::STARNET_OPTION_ID)
                         ->save();*/

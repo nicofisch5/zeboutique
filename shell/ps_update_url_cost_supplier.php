@@ -36,7 +36,7 @@ require_once 'abstract.php';
 class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
 {
     
-    const FILENAME = 'ps_product_costume.csv';
+    const FILENAME = 'ps_mdb_product_maillot.csv';
     
     protected $_attributeOptions = array();
     
@@ -145,7 +145,6 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
         
         try {
             $rowNumber  = 1;
-            $importData = array();
 
             while (false !== ($csvLine = $io->streamReadCsv(","))) {
                 $rowNumber++;
@@ -191,7 +190,7 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
                 $prd->setData('ps_url', $csvLine[1])
                      ->setData('cost', $csvLine[2])
                      ->setData('supplier', $this->_getAttributeOptionIdByValue('supplier', $csvLine[3]))
-                     //->setData('price', $csvLine[4])
+                     ->setData('price', $csvLine[4])
                      ->save();
                 Mage::log('SKU '.$csvLine[0]. ' (configurable) mis à jour (ps_url, cost, supplier)');
 

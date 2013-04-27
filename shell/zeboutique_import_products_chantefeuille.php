@@ -38,9 +38,11 @@ require_once 'zeboutique_import_products.php';
 class Zeboutique_Shell_ImportProducts_Chantefeuille extends Zeboutique_Shell_ImportProducts
 {
     
-    const FILENAME = '1piece-nv-mb-chantefeuille.csv';
     const CHANTEFEUILLE_SUPPLIER_OPTION_ID = 316;
     const CHANTEFEUILLE_MANUFACTURER_OPTION_ID = 321;
+
+    //protected $_filename = '1piece-nv-mb-chantefeuille.csv';
+    protected $_filename = '1-piece-perdues.csv';
 
     // C2c_bikini
     protected $_attSet = 35;
@@ -52,10 +54,10 @@ class Zeboutique_Shell_ImportProducts_Chantefeuille extends Zeboutique_Shell_Imp
     protected $_attTSGId = 163;
     protected $_attCouleurId = 158;
 
-    protected $_attHautCode = 'c2c_haut';
-    protected $_attBasCode = 'c2c_bas';
+    protected $_attHautCode = 'c2c_haut_mdb';
+    protected $_attBasCode = 'c2c_bas_mdb';
     protected $_attTSGCode = 'taille_soutien_gorge';
-    protected $_attCouleurCode = 'c2c_couleur';
+    protected $_attCouleurCode = 'c2c_couleur_mdb';
 
 
     /**
@@ -76,6 +78,7 @@ class Zeboutique_Shell_ImportProducts_Chantefeuille extends Zeboutique_Shell_Imp
             // Configurable associated products
             $simpleProducts = array();
             $attributeIds = array();
+            $simpleImages = array();
 
             while (false !== ($csvLine = $io->streamReadCsv(";"))) {
                 $sku = $csvLine[2];
@@ -138,20 +141,21 @@ echo "process configurable \n";
                             ->setManufacturer(self::CHANTEFEUILLE_MANUFACTURER_OPTION_ID)
                             ->setCategoryIds($this->_catIds);
 
-                        try {
-                            // Set image to configurable
-                            $cProduct->addImageToMediaGallery(
-                                $this->_dirMediaImport.$previousImageName,
-                                array(
-                                    'image',
-                                    'small_image',
-                                    'thumbnail'
-                                ),
-                                false,
-                                false
-                            );
-                        } catch (Exception $e) {
-                            echo "$this->_dirMediaImport.$previousImageName does not exist";
+                        $affectation = array('image', 'small_image', 'thumbnail');
+                        foreach ($simpleImages as $simpleImage) {
+                            try {
+                                // Set images to grouped
+                                $cProduct->addImageToMediaGallery(
+                                    $this->_dirMediaImport.$simpleImage,
+                                    $affectation,
+                                    false,
+                                    false
+                                );
+
+                                $affectation = array();
+                            } catch (Exception $e) {
+                                echo "$this->_dirMediaImport.$previousImageName does not exist";
+                            }
                         }
 
                         $cProduct->setCanSaveConfigurableAttributes(true);
@@ -209,6 +213,7 @@ echo "process configurable \n";
 
                         // Erase associated
                         $simpleProducts = array();
+                        $simpleImages = array();
                         $attributeIds = array();
                     }
                 }
@@ -284,7 +289,7 @@ echo "process configurable \n";
                     'name' => $initLabel,
                     'short_description' => $initLabel,
                     'description' => $csvLine[4],
-                    'price' => $csvLine[5] * 2,
+                    'price' => $csvLine[5] * 2.35,
                     'cost' => $csvLine[5],
                     'image' => 'no_selection',
 	                'small_image' => 'no_selection',
@@ -311,6 +316,10 @@ echo "process configurable \n";
                 if ($previousImageName != $imageName) {
                     $this->_getImageByUrl($csvLine[7], $imageName);
                     $previousImageName = $imageName;
+                }
+
+                if (! in_array($imageName, $simpleImages)) {
+                    $simpleImages[] = $imageName;
                 }
 
                 // Add image to product
