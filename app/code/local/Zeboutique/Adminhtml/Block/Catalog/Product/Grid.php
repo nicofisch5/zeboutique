@@ -47,7 +47,9 @@ class Zeboutique_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Blo
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
-            ->addAttributeToSelect('type_id');
+            ->addAttributeToSelect('type_id')
+            ->addAttributeToSelect('manufacturer')
+            ->addAttributeToSelect('supplier');
 
         if (Mage::helper('catalog')->isModuleEnabled('Mage_CatalogInventory')) {
             $collection->joinField('qty',
