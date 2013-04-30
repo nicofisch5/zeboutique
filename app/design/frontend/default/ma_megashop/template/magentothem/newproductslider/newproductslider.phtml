@@ -1,6 +1,6 @@
 <?php if($this->getConfig('enabled')){ // start enable module?>
 	<?php
-		function cut_string_newproductslider($string,$number){
+		function cut_string_newproductslider($string,$number = 70){
 			if(strlen($string) <= $number) {
 				return $string;
 			}

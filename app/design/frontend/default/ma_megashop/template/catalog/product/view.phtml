@@ -62,10 +62,10 @@
     ?>
     <div class="product-next-prev">
         <?php if($_prev_prod != NULL): ?>
-            <a class="product-prev" href="<?php print $_prev_prod->getUrlPath(); if($search_parameter):?>?search=1<?php endif;?>"><span><?php echo $this->__('Previous') ?></span></a>
+            <a class="product-prev" href="<?php print $_prev_prod->getUrlPath(); if(isset($search_parameter) && $search_parameter):?>?search=1<?php endif;?>"><span><?php echo $this->__('Previous') ?></span></a>
         <?php endif; ?>
         <?php if($_next_prod != NULL): ?>
-            <a class="product-next" href="<?php print $_next_prod->getUrlPath(); if($search_parameter):?>?search=1<?php endif;?>"><span><?php echo $this->__('Next') ?></span></a>
+            <a class="product-next" href="<?php print $_next_prod->getUrlPath(); if(isset($search_parameter) && $search_parameter):?>?search=1<?php endif;?>"><span><?php echo $this->__('Next') ?></span></a>
         <?php endif; ?> 
     </div>
     <!-- next back -->
