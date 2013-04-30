@@ -48,7 +48,10 @@ class Magentothem_Featuredproductvertscroller_Block_Featuredproductvertscroller 
 	{
 		$config = Mage::getStoreConfig('featuredproductvertscroller');
 		if (isset($config['featuredproductvertscroller_config']) ) {
-			$value = $config['featuredproductvertscroller_config'][$att];
+			$value = null;
+            if (array_key_exists($att, $config['featuredproductvertscroller_config'])) {
+                $value = $config['featuredproductvertscroller_config'][$att];
+            }
 			return $value;
 		} else {
 			throw new Exception($att.' value not set');
