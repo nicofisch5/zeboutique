@@ -68,9 +68,15 @@ class Magehouse_Slider_Model_Catalogsearch_Layer extends Mage_CatalogSearch_Mode
         Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
 		
 		/*PRICE SLIDER FILTER*/
-		$max=$_GET['max'];
-		$min=$_GET['min'];
-		
+        $max = null;
+        $min = null;
+        if (array_key_exists('max', $_GET)) {
+		    $max = $_GET['max'];
+        }
+
+        if (array_key_exists('min', $_GET)) {
+            $min = $_GET['min'];
+        }
 		//print_r($collection->getData());
 		
 		if($min && $max){
