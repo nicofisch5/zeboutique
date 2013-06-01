@@ -33,10 +33,10 @@ require_once 'abstract.php';
  * @package     Mage_Shell
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
+class Zemode_Shell_UpdateSku extends Mage_Shell_Abstract
 {
     
-    const FILENAME = 'ps_mdb_product_maillot.csv';
+    const FILENAME = 'ps_product_luxe.csv';
     
     protected $_attributeOptions = array();
     
@@ -211,5 +211,5 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
     }
 }
 
-$shell = new Zemode_Shell_StarnetUpdateSku();
+$shell = new Zemode_Shell_UpdateSku();
 $shell->run();
