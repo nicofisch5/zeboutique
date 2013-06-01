@@ -7,6 +7,14 @@
                 <Mage_Adminhtml/>
             </depends>
         </Zeboutique_Adminhtml>
+
+        <Zeboutique_Busyx>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Core/>
+            </depends>
+        </Zeboutique_Busyx>
     
         <Zeboutique_Catalog>
             <active>true</active>
@@ -15,6 +23,14 @@
                 <Mage_Catalog/>
             </depends>
         </Zeboutique_Catalog>
+
+        <Zeboutique_CatalogSearch>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_CatalogSearch/>
+            </depends>
+        </Zeboutique_CatalogSearch>
         
         <Zeboutique_Chantefeuille>
             <active>true</active>
