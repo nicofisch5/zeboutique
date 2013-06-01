@@ -36,6 +36,7 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
 {
     
     protected $_prefix = '';
+    protected $_prdIdsInFile = array();
     protected $_prdIdsToReindex = array();
     protected $_stockData = array();
         
@@ -66,11 +67,12 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
     /**
      * Set stock data
      *
-     * @param int $prdId
+     * @param int|array $prdId
      * @param int $qty
+     * @param bool $include
      * @return bool
      */
-    protected function _setStockData($prdId, $qty)
+    protected function _setStockData($prdId, $qty, $include = true)
     {
         // Table name
         $stockTable = $this->_getResource()->getTableName('cataloginventory/stock_item');
@@ -82,13 +84,26 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
 
         // Query
         $query = "UPDATE $stockTable
-    	SET manage_stock = 1,
-    	use_config_manage_stock = 0,
-    	is_in_stock = ".$isInStock.",
-    	qty = ".$qty."
-        WHERE product_id = ".$prdId."
-        AND stock_id = 1";
-        
+            SET manage_stock = 1,
+            use_config_manage_stock = 0,
+            is_in_stock = ".$isInStock.",
+            qty = ".$qty."
+            WHERE stock_id = 1";
+
+        if (is_array($prdId)) {
+            $operator = 'IN';
+            if (! $include) {
+                $operator = 'NOT IN';
+            }
+            $query .= " AND product_id $operator (".implode(',', $prdId).")";
+        } else {
+            $operator = '=';
+            if (! $include) {
+                $operator = '!=';
+            }
+            $query .= " AND product_id $operator ".$prdId;
+        }
+
         $this->_getWriteConnection()->query($query);
 
         return true;
@@ -191,7 +206,9 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
             if (! $this->_isTypeSimple($productId)) {
                 continue;
             }
-            
+
+            $this->_prdIdsInFile[] = $productId;
+
             // Check qty in stock
             if ((int) $this->_getStockData($productId) == $qty) {
                 continue;
@@ -222,6 +239,26 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Before reindex stock data
+     *
+     * @return Zeboutique_Zcore_Model_Stock
+     */
+    protected function _beforeReindexStock()
+    {
+        return $this;
+    }
+
+    /**
+     * After reindex stock data
+     *
+     * @return Zeboutique_Zcore_Model_Stock
+     */
+    protected function _afterReindexStock()
+    {
+        return $this;
+    }
+
+    /**
      * Update stock
      * 
      * @return Zeboutique_Zcore_Model_Stock
@@ -246,11 +283,16 @@ abstract class Zeboutique_Zcore_Model_Stock extends Mage_Core_Model_Abstract
         $this->_log(
             Mage::helper('core')->__('Start reindex stock at %s', new Zend_Date())
         );
+
+        $this->_beforeReindexStock();
+
         // Stock reindex
         $this->_reindexStock();
         $this->_log(
             Mage::helper('core')->__('End reindex stock at %s', new Zend_Date())
         );
+
+        $this->_afterReindexStock();
         
         return $this;
     }
