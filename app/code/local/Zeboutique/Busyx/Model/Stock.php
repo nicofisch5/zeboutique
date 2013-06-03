@@ -36,6 +36,7 @@ class Zeboutique_Busyx_Model_Stock extends Zeboutique_Zcore_Model_Stock
 {
     
     const URL_STOCK_FILE = 'http://www.busyx-pro.com/csv_proengine.php';
+    const PATH_STOCK_FILE = 'var/import/';
     const BUSYX_OPTION_ID = 314;
 
     protected $_prefix = 'busyx';
@@ -47,11 +48,30 @@ class Zeboutique_Busyx_Model_Stock extends Zeboutique_Zcore_Model_Stock
      */
     protected function _getCsvStream()
     {
-        $io = new Varien_Io_File();
-        $io->streamOpen(self::URL_STOCK_FILE, 'r');
+        try {
+            // Ourput file
+            $outputfile = self::PATH_STOCK_FILE.$this->_prefix.".csv";
+            // Prepare shell command
+            $cmd = "wget -q \"".self::URL_STOCK_FILE."\" -O $outputfile";
+            // Execute shell command
+            exec($cmd);
+
+            $io = new Varien_Io_File();
+            if ($io->streamOpen($outputfile, 'r') === false) {
+                $this->_log('File does not exist');
+                exit;
+            }
+
+        } catch (Exception $e) {
+            $this->_log($e->getMessage(), Zend_Log::ERR);
+            exit;
+        }
 
         // Skip headers
-        $io->streamReadCsv();
+        if ($io->streamReadCsv() === false) {
+            $this->_log('Empty file');
+            exit;
+        }
         
         return $io;
     }
@@ -91,11 +111,12 @@ class Zeboutique_Busyx_Model_Stock extends Zeboutique_Zcore_Model_Stock
      */
     protected function _beforeReindexStock()
     {
-        // Get all Magento products that are not in Busyx file
+        // Get all Busyx products that are not in Busyx file
         $coll = Mage::getModel('catalog/product')->getCollection()
             ->addFieldToFilter('type_id', 'simple')
             ->addFieldToFilter('supplier', self::BUSYX_OPTION_ID)
             ->addFieldToFilter('entity_id', array('nin' => $this->_prdIdsInFile));
+        $this->_log($coll->getSelect());
 
         // Update with stock 0
         $this->_setStockData($coll->getAllIds(), 0);
