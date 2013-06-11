@@ -47,6 +47,22 @@
                 <Mage_Core/>
             </depends>
         </Zeboutique_Core>
+
+        <Zeboutique_Intimes>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Core/>
+            </depends>
+        </Zeboutique_Intimes>
+
+        <Zeboutique_Paypal>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Paypal/>
+            </depends>
+        </Zeboutique_Paypal>
     
         <Zeboutique_Sales>
             <active>true</active>
