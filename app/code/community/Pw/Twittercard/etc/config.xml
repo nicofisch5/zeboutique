@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Pw_Twittercard>
+            <version>1.0.1</version>
+        </Pw_Twittercard>
+    </modules>
+    <global>
+        <models>
+            <pwtwittercard>
+                <class>Pw_Twittercard_Model</class>
+            </pwtwittercard>
+        </models>
+		<blocks>
+			<pwtwittercard>
+				<class>Pw_Twittercard_Block</class>
+			</pwtwittercard>
+		</blocks>
+    </global>
+	<frontend>
+		<layout>
+			<updates>
+				<pwtwittercard>
+					<file>pw/twittercard.xml</file>
+				</pwtwittercard>
+			</updates>
+		</layout>	
+	</frontend>
+	<default>
+		<pwtwittercard>
+			<product>
+			</product>
+		</pwtwittercard>
+	</default>
+</config>

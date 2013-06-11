@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Pw_Twittercard>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Pw_Twittercard>
+    </modules>
+</config>

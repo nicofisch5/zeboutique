@@ -1,0 +1,23 @@
+<?php if($this->getRequest()->getControllerName()=='product'):?>
+<?php $product = Mage::registry('current_product'); 
+if($product):
+$url = $this->helper('core/url')->getCurrentUrl();  echo $currentUrl;
+$title = $this->getLayout()->getBlock('head')->getTitle();
+$description = $this->getLayout()->getBlock('head')->getDescription(); 
+$image = $product->getImageUrl();
+
+$pw_twittercard_config = Mage::getSingleton('pwtwittercard/config');
+$twitter_username = $pw_twittercard_config->getTwitterUsername();
+if(empty($twitter_username)){
+	$twitter_username = "@shipmycard";
+}
+?>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="<?php echo $twitter_username;?>">
+<meta name="twitter:creator" content="<?php echo $twitter_username;?>">
+<meta name="twitter:url" content="<?php echo htmlspecialchars($url);?>">
+<meta name="twitter:title" content="<?php echo htmlspecialchars ($title);?>">
+<meta name="twitter:description" content="<?php echo htmlspecialchars ($description);?>">
+<meta name="twitter:image" content="<?php echo htmlspecialchars ($image);?>">
+<?php endif;?>
+<?php endif;?>
