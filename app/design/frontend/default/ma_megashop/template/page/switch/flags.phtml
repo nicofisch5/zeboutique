@@ -24,14 +24,17 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php if(count($this->getStores())>1): ?>
-<div class="language-switcher">
-	<!--<span>Your Language: </span>-->
-    <?php foreach ($this->getStores() as $_lang): ?>
-        <a href="<?php echo $_lang->getCurrentUrl() ?>">
-			<?php echo $this->htmlEscape($_lang->getCode()) ?>
-		</a>
-    <?php endforeach; ?>
-</div>
-<?php endif; ?>
 
+<?php $uri = Mage::app()->getRequest()->getRequestUri(); ?>
+<?php if ($uri == '/' || strstr($uri, '/?___') !== false || strstr($uri, '/?SID') !== false): ?>
+    <?php if(count($this->getStores())>1): ?>
+    <div class="language-switcher">
+        <!--<span>Your Language: </span>-->
+        <?php foreach ($this->getStores() as $_lang): ?>
+            <a href="<?php echo $_lang->getCurrentUrl() ?>">
+                <?php echo $this->htmlEscape($_lang->getCode()) ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
