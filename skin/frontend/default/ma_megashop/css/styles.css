@@ -2162,6 +2162,8 @@ tr.summary-details-excluded { font-style:italic; }
 .ma-footer-static-container-top .social ul li.rss a:hover{ background:url(../images/rss.png) 0 100% no-repeat; }
 .ma-footer-static-container-top .social ul li.youtube a{ background:url(../images/youtube.png) 0 0 no-repeat; }
 .ma-footer-static-container-top .social ul li.youtube a:hover{ background:url(../images/youtube.png) 0 100% no-repeat; }
+.ma-footer-static-container-top .social ul li.gplus a{ background:url(../images/gplus.png) 0 0 no-repeat; }
+.ma-footer-static-container-top .social ul li.gplus a:hover{ background:url(../images/gplus.png) 0 100% no-repeat; }
 
 .ma-footer-static-container-bottom{}
 .ma-footer-static-container-bottom .footer-static-title{ background:url(../images/bg-title-footer-static.png) 0 100% repeat-x; padding:0 0 2px; margin:0 0 15px; }
