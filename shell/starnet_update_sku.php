@@ -41,8 +41,11 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
     const URL_TARIF_FILE = 'http://www.starnet-world.com/files/tarifs_clients_2013.xlsx';
     const STARNET_OPTION_ID = 311;
 
-    // C2c_Couleur_eros
-    protected $_attSet = 20;
+    // C2c_Taille
+    //protected $_attSet = 36;
+
+    // C2c_Couleur
+    protected $_attSet = 38;
     
     /*protected $_taille = array(
         'ps' => 'Grande Taille Unique',
@@ -61,18 +64,26 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
     );*/
 
     protected $_taille = array(
-        //'ps' => 'Grande Taille Unique',
-        'l' => 'L-40',
-        'lxl' => 'L/XL',
+        'ps' => 'Grande Taille Unique',
         'os' => 'Taille Unique',
-        'm' => 'M-38',
-        'ml' => 'M/L',
-        's' => 'S-36',
-        'sm' => 'S/M',
-        'xl' => 'XL-42',
-        //'xs' => 'XS-34',
-        'xxl' => 'XXL-44',
-        //'xxlxxxl' => 'XXXL-46'
+        'sl' => 'L - 40',
+        'l' => 'L - 40',
+        'lxl' => 'L/XL 40-42',
+        'os' => 'Taille Unique',
+        'm' => 'M - 38',
+        'ml' => 'M/L 38-40',
+        's' => 'S - 36',
+        'sm' => 'S/M 36-38',
+        'xl' => 'XL - 42',
+        'xs' => 'XS - 34',
+        'xxl' => 'XXL - 44',
+        'xxxl' => 'XXXL - 46',
+        'xxlxxxl' => '2X-3X',
+
+        '1x2x' => '1X-2X',
+        '3x-4x' => '3X-4X',
+        '1x' => '1x',
+        '2x' => '2x'
     );
   
     /**
@@ -108,7 +119,7 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
             $rowNumber  = 1;
             $importData = array();
 
-            while (false !== ($csvLine = $io->streamReadCsv("\t"))) {
+            while (false !== ($csvLine = $io->streamReadCsv(";"))) {
                 $rowNumber++;
 
                 if (empty($csvLine)) {
@@ -122,6 +133,8 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
 				 *	- si on trouve on met à jour la référence.
                  *   - sinon on loggue
                 */
+
+                $csvLine[0] = trim($csvLine[0]);
                 
                 // Products that begin with starnet SKU master
                 $coll = Mage::getModel('catalog/product')->getCollection()
@@ -139,44 +152,67 @@ class Zemode_Shell_StarnetUpdateSku extends Mage_Shell_Abstract
                 foreach ($coll as $prd) {
                     $prd->load($prd->getId());
 
-                    // Search color label in strnet product label
-                    //$starnetLabel = strtolower($csvLine[2]);
-
-                    // Regex to find color and size
-                    //preg_match('@couleur.?:.?(.*) \/.?taille.?:.?(.*)@i', $csvLine[2], $matches);
-                    preg_match('@couleur.?:.?(.*)@i', $csvLine[2], $matches);
-                    $couleur = strtolower($matches[1]);
-                    //$taille = strtolower($matches[2]);
-                    
-                    $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur_eros'));
-                    //$prdTaille = $prd->getAttributeText('c2c_taille_mdb');
+                    $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur'));
+                    //$prdTaille = $prd->getAttributeText('c2c_taille');
                     if (! $prdCouleur/* || ! $prdTaille*/) {
                         continue;
                     }
 
-                    // Check couleur
-                    if (strstr($couleur, $prdCouleur) === false) {
-                        echo $csvLine[0].' Couleur non trouvée '.$couleur." ".$prdCouleur;exit;
-                        continue;
+                    /***** DEBUT CAS DOUBLE COULEUR *****/
+                    preg_match('@couleur.?:.?(.*)\/(.*) \/.?taille.?:.?(.*)@i', $csvLine[2], $matches);
+                    if (count($matches) > 3) {
+                        // Cas double couleur confirmé
+                        $couleur1 = strtolower($matches[1]);
+                        $couleur2 = strtolower($matches[2]);
+                        $taille = strtolower($matches[3]);
+
+                        if (strstr($prdCouleur, 'et') === false) {
+                            continue;
+                        }
+    //echo $prdCouleur." \n";
+
+                        if (!(strstr($prdCouleur, $couleur1) !== false && strstr($prdCouleur, $couleur2) !== false)) {
+                            continue;
+                        }
+                    } else {
+                        /***** DEBUT CAS CLASSIQUE *****/
+
+                        preg_match('@couleur.?:.?(.*) \/.?taille.?:.?(.*)@i', $csvLine[2], $matches);
+                        //preg_match('@couleur.?:.?(.*)@i', $csvLine[2], $matches);
+                        $couleur = strtolower($matches[1]);
+                        $taille = strtolower($matches[2]);
+
+                        // Check couleur
+                        if (strstr($couleur, $prdCouleur) === false) {
+                            //echo $csvLine[0].' Couleur non trouvée '.$couleur." ".$prdCouleur."(".$prd->getData('sku').") \n";
+                            continue;
+                        }
+
+                        /***** FIN CAS CLASSIQUE *****/
                     }
 
                     // Check taille
                     /*if (! array_key_exists($taille, $this->_taille)) {
-                        //echo 'Taille non trouvée '.$taille;exit;
+                        //echo '----- Taille non trouvée '.$taille."(".$prd->getData('sku').") \n";
                         continue;
                     }
 
                     if ($this->_taille[$taille] != $prdTaille) {
                         continue;
                     }*/
-                    
+
+                    if ($prd->getData('sku') == $csvLine[1]) {
+                        //echo "----- SKU ".$prd->getData('sku')." déjà modfiée \n";
+                        continue;
+                    }
+
                     // Update SKU
                     $this->_updatedRows++;
-                    $msg = $csvLine[2]." - $prdCouleur - $prdTaille - (".$prd->getId().") \n";
+                    $msg = "Old SKU ".$prd->getData('sku'). " New ".$csvLine[1]." - $prdTaille - $prdCouleur - (".$prd->getId().") \n";
                     //$msg = $csvLine[2]." - $prdCouleur - (".$prd->getId().") \n";
                     echo $msg;
-                    Mage::log($msg);
-                    /*$prd->setData('sku', $csvLine[1])
+                    /*Mage::log($msg);
+                    $prd->setData('sku', $csvLine[1])
                         ->setData('starnet_sku_updated', 1)
                         ->setData('supplier', self::STARNET_OPTION_ID)
                         ->save();*/

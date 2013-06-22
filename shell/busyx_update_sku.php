@@ -40,10 +40,10 @@ class Zemode_Shell_BusyxUpdateSku extends Mage_Shell_Abstract
     const STARNET_OPTION_ID = 314;
 
     // C2c_Couleur_eros
-    //protected $_attSet = 20;
+    protected $_attSet = 20;
 
     // C2c_Couleur_Taille_pap
-    protected $_attSet = 10;
+    //protected $_attSet = 10; // OK
 
     // Default
     // protected $_attSet = 4;
@@ -129,34 +129,34 @@ class Zemode_Shell_BusyxUpdateSku extends Mage_Shell_Abstract
                     $prd->load($prd->getId());
 
                     $couleur = strtolower($csvLine[10]);
-                    $taille = strtolower($csvLine[9]);
+                    //$taille = strtolower($csvLine[9]);
                     
-                    $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur_pap'));
-                    $prdTaille = $prd->getAttributeText('c2c_taille_pap');
-                    if (! $prdCouleur || ! $prdTaille) {
+                    $prdCouleur = strtolower($prd->getAttributeText('c2c_couleur_eros'));
+                    //$prdTaille = $prd->getAttributeText('c2c_taille_pap');
+                    if (! $prdCouleur/* || ! $prdTaille*/) {
                         continue;
                     }
 
                     // Check couleur
                     if (strstr($couleur, $prdCouleur) === false) {
-echo $csvLine[0].' Couleur non trouvée '.$couleur." ".$prdCouleur."\n";
+//echo $csvLine[0].' Couleur non trouvée '.$couleur." ".$prdCouleur."\n";
                         continue;
                     }
 
                     // Check taille
-                    if (! array_key_exists($taille, $this->_taille)) {
+                    /*if (! array_key_exists($taille, $this->_taille)) {
 echo $csvLine[0].' Taille non trouvée '.$taille."\n";
                         continue;
                     }
 
                     if ($this->_taille[$taille] != $prdTaille) {
                         continue;
-                    }
+                    }*/
                     
                     // Update SKU
                     $this->_updatedRows++;
-                    $msg = $csvLine[6]." - $prdCouleur - $prdTaille - (".$prd->getId().") \n";
-                    //$msg = $csvLine[6]." - $prdCouleur - (".$prd->getId().") \n";
+                    //$msg = $csvLine[6]." - $prdCouleur - $prdTaille - (".$prd->getId().") \n";
+                    $msg = $csvLine[6]." - $prdCouleur - (".$prd->getId().") \n";
                     echo $msg;
                     Mage::log($msg);
                     $prd->setData('sku', $csvLine[1])
