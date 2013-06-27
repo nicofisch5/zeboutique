@@ -42,23 +42,43 @@ class Zeboutique_Shell_ImportProducts_Chantefeuille extends Zeboutique_Shell_Imp
     const CHANTEFEUILLE_MANUFACTURER_OPTION_ID = 321;
 
     //protected $_filename = '1piece-nv-mb-chantefeuille.csv';
-    protected $_filename = '1-piece-perdues.csv';
+    protected $_filename = 'chantefeuille-25juin.csv';
 
     // C2c_bikini
-    protected $_attSet = 35;
+    protected $_attSet = 32;
 
     protected $_catIds = array(196);
 
     protected $_attHautId = 159;
     protected $_attBasId = 160;
-    protected $_attTSGId = 163;
     protected $_attCouleurId = 158;
 
     protected $_attHautCode = 'c2c_haut_mdb';
     protected $_attBasCode = 'c2c_bas_mdb';
-    protected $_attTSGCode = 'taille_soutien_gorge';
     protected $_attCouleurCode = 'c2c_couleur_mdb';
 
+    protected $_taille = array(
+        'ps' => 'Grande Taille Unique',
+        'os' => 'Taille Unique',
+        'sl' => 'L - 40',
+        'l' => 'L - 40',
+        'lxl' => 'L/XL 40-42',
+        'os' => 'Taille Unique',
+        'm' => 'M - 38',
+        'ml' => 'M/L 38-40',
+        's' => 'S - 36',
+        'sm' => 'S/M 36-38',
+        'xl' => 'XL - 42',
+        'xs' => 'XS - 34',
+        'xxl' => 'XXL - 44',
+        'xxxl' => 'XXXL - 46',
+        'xxlxxxl' => '2X-3X',
+
+        '1x2x' => '1X-2X',
+        '3x-4x' => '3X-4X',
+        '1x' => '1x',
+        '2x' => '2x'
+    );
 
     /**
      * Try to update Magento SKU with csv file
@@ -96,7 +116,12 @@ class Zeboutique_Shell_ImportProducts_Chantefeuille extends Zeboutique_Shell_Imp
 
                 // We explode to get master SKU
                 $masterSku = explode('-', $sku);
-                $masterSku = $masterSku[0];
+                $taille = array_pop($masterSku);
+                if (count($masterSku) == 1) {
+                    $masterSku = $masterSku[0];
+                } else {
+                    $masterSku = implode('-', $masterSku);
+                }
 
                 // If SKU are identical
                 if ($simpleSku == $masterSku) {
@@ -120,8 +145,8 @@ echo "\n changement de masterSku \n";
                     } else {
 echo "process configurable \n";
                         // Create configurable
-                        $masterLabel = ucfirst(trim(array_shift(explode('(', $initLabel))));
-                        $masterDesc = ucfirst(trim(array_shift(explode('Taille', $prd->getData('description')))));
+                        $masterLabel = ucfirst(trim($initLabel));
+                        $masterDesc = ucfirst(trim($prd->getData('description')));
 
                         // Set data to configurable
                         $cProduct = Mage::getModel('catalog/product');
@@ -231,21 +256,12 @@ echo "process configurable \n";
 
                     $label = strtolower($csvLine[3]);
                     $initLabel = $csvLine[3];
-                    // Regex to find color and size
-                    preg_match('@taille.?:.?(.*),.?couleur.?:.?(.*)\)@i', $label, $matches);
-                    $taille = strtoupper($matches[1]);
-                    $couleur = ucfirst($matches[2]);
+                    $couleur = ucfirst($csvLine[4]);
                 }
 
                 // Right product attribute
                 $attCode[0] = $this->_attBasCode;
                 $attId[0] = $this->_attBasId;
-                if (strstr(strtolower($csvLine[1]), 'haut')) {
-                    $attCode[0] = $this->_attHautCode;
-                    $attId[0] = $this->_attHautId;
-                    $attCode[1] = $this->_attTSGCode;
-                    $attId[1] = $this->_attTSGId;
-                }
 
                 // Taille
                 $attCodeTaille = $attCode[0];
@@ -253,7 +269,7 @@ echo "process configurable \n";
                 $tailleInit = $taille;
                 if (! $tailleId = $this->_getAttributeOptionIdByValue($attCodeTaille, $taille)) {
                     $taille = explode('/', $taille);
-                    $taille = $taille[0];
+                    $taille = $taille[1];
                     if (! $tailleId = $this->_getAttributeOptionIdByValue($attCodeTaille, $taille)) {
                         $taille = explode(' ', $taille);
                         $taille = $taille[0];
@@ -288,9 +304,9 @@ echo "process configurable \n";
                     'sku' => $sku,
                     'name' => $initLabel,
                     'short_description' => $initLabel,
-                    'description' => $csvLine[4],
-                    'price' => $csvLine[5] * 2.35,
-                    'cost' => $csvLine[5],
+                    'description' => $csvLine[5],
+                    'price' => $csvLine[6] * 2.35,
+                    'cost' => $csvLine[6],
                     'image' => 'no_selection',
 	                'small_image' => 'no_selection',
 	                'thumbnail' => 'no_selection',
@@ -301,7 +317,7 @@ echo "process configurable \n";
                     'manufacturer' => self::CHANTEFEUILLE_MANUFACTURER_OPTION_ID,
                     'tax_class_id' => 0,
                     'stock_data' => array (
-                        'qty' => $csvLine[6],
+                        'qty' => $csvLine[7],
                         'is_in_stock' => 1,
                     ),
                     'website_ids' => array(1)
@@ -312,9 +328,9 @@ echo "process configurable \n";
                     ->addData($prdData);
 
                 // Get image and copy it to media/import dir
-                $imageName = array_pop(explode('/', $csvLine[7]));
+                $imageName = array_pop(explode('/', $csvLine[8]));
                 if ($previousImageName != $imageName) {
-                    $this->_getImageByUrl($csvLine[7], $imageName);
+                    $this->_getImageByUrl($csvLine[8], $imageName);
                     $previousImageName = $imageName;
                 }
 
@@ -341,7 +357,7 @@ echo "process configurable \n";
                 $simpleProducts[] = $prd;
 
                 // Display
-                echo "ID ".$prd->getId() . " stock ".$csvLine[6] ." \n";
+                echo "ID ".$prd->getId() . " stock ".$csvLine[7] ." \n";
             }
         } catch (Mage_Core_Exception $e) {
             //$adapter->rollback();
