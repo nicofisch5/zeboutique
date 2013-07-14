@@ -36,12 +36,22 @@ class Zeboutique_Starnet_IndexController extends Mage_Core_Controller_Front_Acti
 {
 
     /**
-     * Custom render
+     * Stock
      * 
      * @return null
      */
-    public function indexAction()
+    public function stockAction()
     {
         Mage::getModel('starnet/stock')->updateStock();
+    }
+
+    /**
+     * Stock
+     *
+     * @return null
+     */
+    public function productAction()
+    {
+        Mage::getModel('starnet/import_product')->importProducts();
     }
 }

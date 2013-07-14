@@ -12,7 +12,7 @@
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Core/>
+                <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Busyx>
     
@@ -36,23 +36,23 @@
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Core/>
+                <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Chantefeuille>
     
-        <Zeboutique_Core>
+        <Zeboutique_Zcore>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
                 <Mage_Core/>
             </depends>
-        </Zeboutique_Core>
+        </Zeboutique_Zcore>
 
         <Zeboutique_Intimes>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Core/>
+                <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Intimes>
 
@@ -76,7 +76,7 @@
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Core/>
+                <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Starnet>
         
@@ -84,7 +84,7 @@
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Core/>
+                <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Silamoda>
     </modules>
