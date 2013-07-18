@@ -1,0 +1,280 @@
+<?php
+	//$_in_stock = $this->getInStock() 
+	$_in_stock = $this->getComparer()->getInStock();
+?>
+<?php $comparer = $this->getComparer() ?>
+<?php //$_stock_param = $comparer->getStockParams() ?>
+<?php 
+	if(!$comparer->getId()) {
+		$nombre = 0;
+	}else{
+		if($comparer->getProductIds() && $comparer->getProductIds()!=','){
+			$nombre = count(explode(',',$comparer->getProductIds()));
+		}else{
+			$nombre = 0;
+		}
+	}
+?>
+<script language = "javascript">
+	var init = 0;
+</script>
+<table width="100%" style="border:1px solid #dfdfdf;">
+<tr bgcolor="#D5E1E3">
+	<td>
+		<button name="loadPrd" id="loadPrd" onclick="loadProduct();"><?php echo Mage::helper('comparer')->__('Load products') ?></button> 
+	</td>
+	<td>
+		<label for="in_stock"><?php echo Mage::helper('comparer')->__('Stock') ?> <span class="required">*</span></label>&nbsp;&nbsp;&nbsp;
+		<select id="in_stock" name="in_stock" title="Criteria" onchange="loadProduct(this);" type="select" class=" required-entry select">
+			<option value="<?php echo Dredd_Comparer_Model_Comparer::C_STOCK ?>" <?php if($_in_stock == Dredd_Comparer_Model_Comparer::C_STOCK): ?> selected="selected" <?php endif; ?> ><?php echo Mage::helper('comparer')->__('Product In Stock') ?></option>
+			<option value="<?php echo Dredd_Comparer_Model_Comparer::C_STOCK_ALL ?>" <?php if($_in_stock == Dredd_Comparer_Model_Comparer::C_STOCK_ALL): ?> selected="selected" <?php endif; ?> ><?php echo Mage::helper('comparer')->__('All Product') ?></option>
+		</select>
+		<input type="hidden" name="comparer_mappage_id" id="comparer_mappage_id" value="<?php echo $comparer->getComparerMappageId() ?>">
+		<input type="hidden" name="store_id" id="store_id" value="<?php echo $comparer->getStoreId() ?>">
+		<input type="hidden" name="comparer_categories" id="comparer_categories" size="60" value="<?php echo $comparer->getCategoryIds() ?>">
+		<input type="hidden" name="comparer_products" id="comparer_products" size="60" value="<?php echo $comparer->getProductIds() ?>" />
+		<input type="hidden" name="name" id="name" size="60" value="<?php echo $comparer->getName() ?>" />
+	</td>
+	<td align="right">
+		<?php  //echo Mage::helper('comparer')->__('Selected products : ') ?><input type="hidden" size="20" class="input-text price" disabled name="nombre_label" id="nombre_label" value="<?php echo $nombre ?>">
+	
+		<?php  echo Mage::helper('comparer')->__('Processed product : ') ?><input type="text" size="20" class="input-text price" disabled name="current_label" id="current_label" value="0">&nbsp;
+		<?php  echo Mage::helper('comparer')->__('Elapsed time : ') ?><input type="text" size="20" class="input-text" disabled name="current_time" id="current_time" value="0">
+	</td>
+</tr>
+<tr>
+	<td colspan="3">
+		<p>&nbsp;</p>
+		<label for="tracking">Tag Tracking</label>
+		<input id="tracking" name="tracking" value="<?php echo $comparer->getTracking() ?>" style="width:350px;" title="Tracking" class="input-text" type="text">
+		<a href="javascript:{}" onclick="toggleVis('tagId'); return false;" title="Tag Tracking help">?</a>
+		<?php 
+			$texte = Mage::helper('comparer')->__('Enter your tracking url, which will add to the url of the product.<br>You can pass in the URL tracking :<br>- SKU and the product name: For this, use the url &laquo;pdt_sku_and_name&raquo;<br>- The product ID and product name: For this, use the url &laquo;pdt_id_and_name&raquo;<br>to be replaced by Product info');
+			$texte = '<div id="tagId" style="display:none;width:480px; border-top:1px solid #e1e6f2;"><small>'.$texte.'</small></div>';
+			echo $texte;
+		?>
+		<p>&nbsp;</p>
+	</td>
+</tr>
+</table>
+<div>
+	<input type="hidden" name="nombre" id="nombre" value="<?php echo $nombre ?>">
+	<input type="hidden" name="current" id="current" value="0">
+	<input type="hidden" name="id" id="comparer_id" value="<?php echo $comparer->getId() ?>">
+	<?php echo $this->getChildHtml('product') ?>
+</div>
+<script language="JavaScript">
+	var t_page = new Array();
+	var nb_page = 0;
+	var total = <?php echo $nombre ?>;
+	//var init = 0;
+	
+	Event.observe(window, 'load', function() {
+
+		$('comparer_category_products_massaction-form').parentNode.style.display = "none";
+		var massAction = comparer_category_products_massactionJsObject;
+		massAction.checkedString = "<?php echo $comparer->getProductIds() ?>";
+		massAction.setCheckedValues(massAction.checkedString);
+        massAction.checkCheckboxes();
+        massAction.updateCount();
+		/*if(init == 0){
+			$('filter_massaction').selectedIndex = 1;
+			comparer_category_productsJsObject.doFilter();
+		} */
+        firstloadProduct();
+	});
+	
+	comparer_category_productsJsObject.preInitCallback = function _preInitCallback(comparer_category_productsJsObject){
+		$('comparer_category_products_massaction-form').parentNode.style.display = "none";
+	}
+</script>
+<script language="JavaScript">
+//<![CDATA[ 
+	function gestProduit(){
+		$('nombre').value = total;
+		$('nombre_label').value = $('nombre').value;
+		$('current_label').value = 0;
+		
+		nb_page = Math.ceil(total/100);
+		
+		for(var i = 0; i < nb_page; i++){
+			if(i==0) {
+				start_row = 0;
+				end_row = 99;
+			}else{
+				start_row = end_row+1;
+				end_row += 100;
+			}
+			t_page[i] = start_row+'-'+end_row;
+		}
+	}
+
+	function reImport(){
+		window.setTimeout("postValues()", 0.5);
+	}
+	
+	function verifVide(){
+	/*
+		verification categorie & produits vide
+	*/
+		initPostValues();
+		var categ = document.getElementById('comparer_categories');
+		var prods = document.getElementById('comparer_products');
+		if((categ.value=='' || categ.value==',') || (prods.value=='' || prods.value==',')) {
+			alert('<?php echo addslashes(Mage::helper('comparer')->__('Please choose category and product to export')) ?>');
+			return false;
+		}	
+		chrono();
+		postValues();
+	}
+	
+	function initPostValues(){
+		$('comparer_products').value = comparer_category_products_massactionJsObject.getCheckedValues();
+		total = varienStringArray.count($('comparer_products').value);
+		gestProduit();
+	}
+
+	function postValues(){
+		var url = '<?php echo $this->getPostUrl() ?>';
+		var mappage_id = $('comparer_mappage_id').value;
+		var in_stock = $('in_stock').options[$('in_stock').selectedIndex].value;
+		var nombre = $('nombre').value;
+		var store_id = $('store_id').value;
+		var category_ids = $('comparer_categories').value;
+		var product_ids = $('comparer_products').value;
+		var name = $('name').value;
+		var id = $('comparer_id').value;
+		var c = $('current').value;
+		var redirect = "<?php echo $this->getListUrl() ?>";
+		var tracking = $('tracking').value;
+		//var stock_param = $('stock_param').options[$('stock_param').selectedIndex].value;
+		
+		new Ajax.Request (url, {
+			method : 'POST',
+			//parameters:{'page':t_page[c], 'name':name, 'mappage_id':mappage_id, 'in_stock':in_stock, 'nombre':nombre, 'store_id':store_id, 'current':c, /*'product_id':product_id,*/ 'category_ids':category_ids, 'product_ids':product_ids, 'id':id, 'tracking':tracking, 'stock_param':stock_param},
+                        parameters:{'page':t_page[c], 'name':name, 'mappage_id':mappage_id, 'in_stock':in_stock, 'nombre':nombre, 'store_id':store_id, 'current':c, /*'product_id':product_id,*/ 'category_ids':category_ids, 'product_ids':product_ids, 'id':id, 'tracking':tracking},
+			onComplete :function (transport) {
+				var res = transport.responseText;
+				var fields = $H(transport.responseText.evalJSON());
+				fields.each(function(pair) {
+					if(pair.key == 'c') {
+						c = pair.value;
+					}
+					if(pair.key == 'id') {
+						id = pair.value;
+					}
+					if(pair.key == 'redirect') {
+						redirect = pair.value;
+					}
+				});
+				c = parseInt(c, 10);
+				if(c < nb_page){
+					$('current').value = c;
+					$('current_label').value = parseInt($('current_label').value)+100;
+					$('comparer_id').value = id;
+					reImport();
+				}else{
+					setLocation(redirect);
+				}
+			}
+		});
+	}
+	
+	function loadProduct(){
+		var obj = document.getElementById('comparer_categories');
+		if(obj.value=='' || obj.value==',') {
+			alert('<?php echo addslashes(Mage::helper('comparer')->__('Please choose category')) ?>');
+			return false;
+		}
+		var catId = obj.value;
+                var prodId = $('comparer_products').value;
+		var stock = $('in_stock');
+		var param_stock = $('param_stock');
+		//var stock_param = $('stock_param');
+		//alert('stock :	'+stock.options[stock.selectedIndex].value+'	stock_param : 	'+stock_param.options[stock_param.selectedIndex].value);
+		init = 1;
+		
+		//comparer_category_productsJsObject.resetFilter();		
+		comparer_category_productsJsObject.reloadParams = {'catIds':catId, 'stock':stock.options[stock.selectedIndex].value, 'productIds':prodId};
+		//alert('catIds	'+obj.value+'	prodIds		'+document.getElementById('comparer_products').value+ '	init : '+init);	
+        
+		comparer_category_productsJsObject.reload('<?php echo $this->getAjaxUrl() ?>');
+		   
+		//init = 0;		
+	}   
+    function firstloadProduct(){
+        var obj = document.getElementById('comparer_categories');
+
+        var catId = obj.value;
+                var prodId = $('comparer_products').value;
+        var stock = $('in_stock');
+        var param_stock = $('param_stock');
+        //var stock_param = $('stock_param');
+        //alert('stock :    '+stock.options[stock.selectedIndex].value+'    stock_param :     '+stock_param.options[stock_param.selectedIndex].value);
+        init = 1;
+        
+        //comparer_category_productsJsObject.resetFilter();        
+        comparer_category_productsJsObject.reloadParams = {'catIds':catId, 'stock':stock.options[stock.selectedIndex].value, 'productIds':prodId};
+        //alert('catIds    '+obj.value+'    prodIds        '+document.getElementById('comparer_products').value+ '    init : '+init);    
+        
+        comparer_category_productsJsObject.reload('<?php echo $this->getAjaxUrl() ?>');
+           
+        //init = 0;        
+    }             
+//]]> 
+</script>
+
+<script language="JavaScript">
+  var centi = 0;
+  var sec = 0;
+  var min = 0;
+  var heure = 0;
+  var loc;
+  var compt = 0;
+ 
+  function chrono()
+  {
+	  centi++;
+	  centi*10;//=======pour passer en dixi?mes de sec
+	  //=== on remet ? z?ro quand on passe ? 1seconde, 1min, 1heure, 1jour
+	  if (centi > 9) {
+	  	centi = 0;
+	  	sec++;
+	  }
+	 
+	  if (sec > 59) {
+	  	sec = 0;
+	  	min++;
+	  }
+	 
+	  if (min > 59) {
+	  	min = 0;
+	  	heure++;
+	  }
+	 
+	  //======
+	 
+	  //================ On ajoute un zero pour avoir 1h01:05sec
+	 
+	  if (sec < 10) {
+	  	var sec_ = "0" + sec;
+	  }
+	  else {
+	  	var sec_ = sec;
+	  }
+	 
+	  if (min < 10) {
+	  	var min_ = "0" + min;
+	  }
+	  else {
+	  	var min_ = min;
+	  }
+	  //===============
+	 
+	  var loc = heure + ":" + min_ + ":" + sec_ + ":" + centi;
+	  //================= Pour que cela s'affiche dans l'?l?ment "time"
+	  $("current_time").value = loc;
+	  //=================lancement du chrono
+	  reglage = window.setTimeout("chrono();",100);
+  }
+</script>

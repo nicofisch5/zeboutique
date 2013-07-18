@@ -1,0 +1,47 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="border:1px solid #dfdfdf; padding:5px;">
+			<?php echo Mage::helper('comparer')->__("Warning:<br/>Export your catalog server requests a resource important, if your accommodation is not properly dimensioned or you're on a shared host: Do not export all the days of catalogs too great.") ?>
+                    </div>
+		</td>
+            </tr>
+    </table>
+</div>
+
+<div id="messages"></div>
+
+<div align="right">
+	<form name="frm" id="frm">
+		<label for="email"><?php echo Mage::helper('comparer')->__('If cron error, send mail to') ?> : </label>
+		<input type="text" name="email" id="email" value="<?php echo $this->getEmail() ?>" class="input-text required-entry validate-email" />
+		<button type="button" name="btnEmail" onclick="saveEmail();" class="scalable save"><span><?php echo Mage::helper('comparer')->__('Save email') ?></span></button>
+	</form>
+</div>
+
+
+<div>
+    <?php //echo $this->getGridHtml() ?>
+</div>
+<script language="JavaScript">
+	function saveEmail(){
+		var varienEmail = new varienForm('frm', true);
+		if(!varienEmail.validator.validate()){
+			return false;
+		}
+		var url = "<?php echo $this->getUrl('*/*/email', array('_current'=>true, '_secure'=>true)) ?>";
+		new Ajax.Request (url, {
+			method : 'POST',
+			parameters:{'email':$('email').value},
+			onComplete :function (transport) {
+				var res = transport.responseText;
+				$('messages').innerHTML = '<ul class="messages"><li class="success-msg"><ul><li><?php echo addslashes(Mage::helper('comparer')->__('Email successfully saved')) ?></li></ul></li></ul>';
+			}
+		});
+	}
+</script>

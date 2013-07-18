@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Dredd_Comparer>
+            <version>1.2.2-1.0.1</version>
+            <depends>
+                <Mage_Category />
+            </depends>
+        </Dredd_Comparer>
+    </modules>
+
+
+    <global>
+        <models>
+            <comparer>
+                <class>Dredd_Comparer_Model</class>
+                <resourceModel>comparer_mysql4</resourceModel>
+            </comparer>
+            <comparer_mysql4>
+                <class>Dredd_Comparer_Model_Mysql4</class>
+                <entities>
+                    <comparer>
+                        <table>comparer</table>
+                    </comparer>
+                    <mappage>
+                        <table>comparer_mappage</table>
+                    </mappage>
+                    <mappageline>
+                        <table>comparer_mappage_line</table>
+                    </mappageline>
+                    <cron>
+                        <table>comparer_cron</table>
+                    </cron>
+                    <plan>
+                        <table>comparer_plan</table>
+                    </plan>
+                </entities>
+            </comparer_mysql4>
+
+            <catalogrule>
+                <rewrite>
+                    <observer>Dredd_Comparer_Model_Listen</observer>
+                </rewrite>
+            </catalogrule>
+        </models>
+
+        <resources>
+            <comparer_setup>
+                <setup>
+                    <module>Dredd_Comparer</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </comparer_setup>
+            <comparer_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </comparer_write>
+            <comparer_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </comparer_read>
+        </resources>
+
+        <blocks>
+            <comparer>
+                <class>Dredd_Comparer_Block</class>
+            </comparer>
+        </blocks>
+
+        <helpers>
+            <comparer>
+                <class>Dredd_Comparer_Helper</class>
+            </comparer>
+        </helpers>
+    </global>
+
+    <admin>
+        <routers>
+            <comparer>
+                <use>admin</use>
+                <args>
+                    <module>Dredd_Comparer</module>
+                    <frontName>comparer</frontName>
+                </args>
+            </comparer>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Dredd_Comparer>
+                    <files>
+                        <comparer>Dredd_Comparer.csv</comparer>
+                    </files>
+                </Dredd_Comparer>
+            </modules>
+        </translate>
+
+        <menu>
+            <comparer translate="title" module="comparer">
+                <title>Comparer</title>
+                <sort_order>81</sort_order>
+                <children>
+                    <mappage translate="title" module="comparer">
+                        <title>Shopbots</title>
+                        <action>comparer/adminhtml_mappage/</action>
+                    </mappage>
+                    <manage translate="title" module="comparer">
+                        <title>Manage comparer</title>
+                        <action>comparer/adminhtml_comparer/</action>
+                    </manage>
+                    <cron translate="title" module="comparer">
+                        <title>Manage cron</title>
+                        <action>comparer/adminhtml_cron/</action>
+                    </cron>
+                </children>
+            </comparer>
+        </menu>
+
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <comparer>
+                            <title>Price Comparer</title>
+                            <sort_order>0</sort_order>
+                            <children>
+                                <mappage translate="title"
+                                    module="comparer">
+                                    <title>Shopbots</title>
+                                </mappage>
+                                <manage translate="title" module="comparer">
+                                    <title>Manage comparer</title>
+                                </manage>
+                            </children>
+                        </comparer>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <crontab>
+        <jobs>
+            <dredd_comparer_cron>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>comparer/observer::generateComparer</model>
+                </run>
+            </dredd_comparer_cron>
+        </jobs>
+    </crontab>
+</config>

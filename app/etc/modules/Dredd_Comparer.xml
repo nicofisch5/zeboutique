@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Dredd_Comparer>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Dredd_Comparer>
+    </modules>
+</config>

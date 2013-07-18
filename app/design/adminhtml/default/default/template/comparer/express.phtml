@@ -1,0 +1,196 @@
+<input type="hidden" name="comparer_id" id="comparer_id">
+<input type="hidden" name="comparer_mappage_id" id="comparer_mappage_id">
+<input type="hidden" name="store_id" id="store_id">
+<input type="hidden" name="comparer_products" id="comparer_products">
+<input type="hidden" name="comparer_categories" id="comparer_categories">
+<input type="hidden" name="in_stock" id="in_stock">
+<input type="hidden" name="param_stock" id="param_stock">
+<input type="hidden" name="tracking" id="tracking">
+<input type="hidden" name="name" id="name">
+
+<input type="hidden" name="nombre" id="nombre">
+<input type="hidden" name="current" id="current">
+<input type="hidden" name="request" id="request">
+<input type="hidden" name="redirect" id="redirect">
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+		<tr bgcolor="#D5E1E3">
+			<td colspan="2">
+				<table width="100%">
+					<tr>
+						<td><div id="waitId" style="display:none;"><?php  echo Mage::helper('comparer')->__('Please wait when generating csv ...') ?></div></td>
+						<td align="right"><?php  echo Mage::helper('comparer')->__('Selected products : ') ?><input type="text" size="20" class="input-text price" disabled name="nombre_label" id="nombre_label" value="0">
+						<?php  echo Mage::helper('comparer')->__('Processed product : ') ?><input type="text" size="20" class="input-text price" disabled name="current_label" id="current_label" value="0">
+						<?php  echo Mage::helper('comparer')->__('Elapsed time : ') ?><input type="text" size="20" class="input-text" disabled name="current_time" id="current_time" value="0">
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getGridHtml() ?>
+</div>
+<script language="JavaScript">
+  var centi = 0;
+  var sec = 0;
+  var min = 0;
+  var heure = 0;
+  var loc;
+  var compt = 0;
+ 
+  function chrono()
+  {
+	  centi++;
+	  centi*10;//=======pour passer en dixi?mes de sec
+	  //=== on remet ? z?ro quand on passe ? 1seconde, 1min, 1heure, 1jour
+	  if (centi > 9) {
+	  	centi = 0;
+	  	sec++;
+	  }
+	 
+	  if (sec > 59) {
+	  	sec = 0;
+	  	min++;
+	  }
+	 
+	  if (min > 59) {
+	  	min = 0;
+	  	heure++;
+	  }
+	 
+	  //======
+	 
+	  //================ On ajoute un zero pour avoir 1h01:05sec
+	 
+	  if (sec < 10) {
+	  	var sec_ = "0" + sec;
+	  }
+	  else {
+	  	var sec_ = sec;
+	  }
+	 
+	  if (min < 10) {
+	  	var min_ = "0" + min;
+	  }
+	  else {
+	  	var min_ = min;
+	  }
+	  //===============
+	 
+	  var loc = heure + ":" + min_ + ":" + sec_ + ":" + centi;
+	  //================= Pour que cela s'affiche dans l'?l?ment "time"
+	  $("current_time").value = loc;
+	  //=================lancement du chrono
+	  reglage = window.setTimeout("chrono();",100);
+  }
+</script>
+
+<script language="JavaScript">
+	var h = $H({});
+	var t_page = new Array();
+	var nb_page = 0;
+
+	function reImport(){
+		window.setTimeout("postValues()", 0.5);
+	}
+
+	function postValues(){
+		var url = $('request').value;
+		var mappage_id = $('comparer_mappage_id').value;
+		var in_stock = $('in_stock').value;
+		var param_stock = $('param_stock').value;
+		var nombre = $('nombre').value;
+		var store_id = $('store_id').value;
+		var category_ids = $('comparer_categories').value;
+		var product_ids = $('comparer_products').value;
+		var id = $('comparer_id').value;
+		var c = $('current').value;
+		//var product_id = h.get(c);
+		var redirect = "";
+		var tracking = $('tracking').value;
+		var name = $('name').value;
+		
+		new Ajax.Request (url, {
+			method : 'POST',
+			parameters:{'page':t_page[c],'name':name, 'mappage_id':mappage_id, 'in_stock':in_stock, 'nombre':nombre, 'store_id':store_id, 'current':c, 'category_ids':category_ids, 'product_ids':product_ids, 'id':id, 'tracking':tracking, 'param_stock':param_stock},
+			onComplete :function (transport) {
+				var res = transport.responseText;
+				var fields = $H(transport.responseText.evalJSON());
+				fields.each(function(pair) {
+					if(pair.key == 'c') {
+						c = pair.value;
+					}
+					if(pair.key == 'id') {
+						id = pair.value;
+					}
+					if(pair.key == 'redirect') {
+						redirect = pair.value;
+					}
+				});
+				c = parseInt(c, 10);
+				if(c < nb_page){
+					$('current').value = c;
+					$('current_label').value = parseInt($('current_label').value)+100;
+					$('comparer_id').value = id;
+					reImport();
+				}else{
+					setLocation(redirect);
+				}
+			}
+		});
+	}
+
+	function loadValues(id, url){
+		$('waitId').style.display = "block";
+		
+		new Ajax.Request (url, {
+			method : 'POST',
+			parameters:{'id':id},
+			onComplete :function (transport) {
+				var res = transport.responseText;
+				var fields = $H(transport.responseText.evalJSON());
+				fields.each(function(pair) {
+					if($(pair.key)) {
+						$(pair.key).value = pair.value;
+					}
+				});
+				$('nombre_label').value = $('nombre').value;
+				$('current_label').value = 0;
+				var total = $('nombre').value;
+				nb_page = Math.ceil(total/100);
+				
+				for(var i = 0; i < nb_page; i++){
+					if(i==0) {
+						start_row = 0;
+						end_row = 99;
+					}else{
+						start_row = end_row+1;
+						end_row += 100;
+					}
+					t_page[i] = start_row+'-'+end_row;
+				}
+				postValues();
+				chrono();
+			}
+		});
+	}
+</script>
+<?php 
+	/*$bf = new Belone_Comparer_Helper_Pagination(1002, 1, 100);
+	$t_back_forward = $bf -> get_loop() ;
+	$bf_info_current_liste_start = $bf -> get_current_row();
+	$bf_info_current_liste_end = $bf -> get_current_end_row();
+	$bf_info_current_nb_liste = $bf -> get_current_row_count();
+	$bf_info_total_records = $bf -> get_total_records();
+	
+	$key = 1;
+	foreach($t_back_forward as $page){
+		echo $page["bf_start_page"].'('.($key-1).' - '.$bf_info_current_nb_liste.')'.'|';
+	}*/
+?>

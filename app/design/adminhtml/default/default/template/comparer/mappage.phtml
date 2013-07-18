@@ -1,0 +1,130 @@
+<input type="hidden" name="nb_comp" id="nb_comp" value="<?php echo $nb_comp ?>" />
+<input type="hidden" name="url_delete" id="url_delete" value="<?php echo $this->getUrl('*/*/*', array('_current'=>true)) ?>" />
+<div id="lignes_container">
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('comparer')->__('Mapping') ?></h4>
+    </div>
+	<div class="fieldset " id="mapping_fieldset">
+    	<div class="hor-scroll">
+			<table width="100%" cellpadding="2" cellspacing="2">
+				<tr class="bold">
+					<td><?php echo Mage::helper('comparer')->__('CSV') ?><span class="required">*</span></td>
+					<td><?php echo Mage::helper('comparer')->__('Attribute') ?><span class="required">**</span></td>
+					<td><?php echo Mage::helper('comparer')->__('Default Value') ?></td>
+					<td><?php echo Mage::helper('comparer')->__('Number max of char') ?><span class="required">*</span></td>
+					<td><?php echo Mage::helper('comparer')->__('Sort Order') ?><span class="required">*</span></td>
+				</tr>
+				<?php foreach($this->getLines() as $item): ?>
+				<tr id="id_<?php echo $item->getId() ?>">
+				   <td><input style="width:160px;" type="text" name="ligne[<?php echo $item->getId() ?>][csv]" id="csv<?php echo $item->getId() ?>" class="required-entry input-text" size="45" value="<?php echo $item->getData('csv') ?>"></td>
+				   <td><select name="ligne[<?php echo $item->getId() ?>][attribute_code]" id="attribute_code<?php echo $item->getId() ?>"><?php echo $this->getOptionsAttributes($item->getData('attribute_code')) ?></select></td>
+				   <td><input style="width:120px;" type="text" name="ligne[<?php echo $item->getId() ?>][default_value]" id="default_value<?php echo $item->getId() ?>" class="input-text" size="60" value="<?php echo $item->getData('default_value') ?>"></td>
+				   <td><input style="width:30px;" type="text" name="ligne[<?php echo $item->getId() ?>][max_size]" id="max_size<?php echo $item->getId() ?>" class="required-entry validate-number input-text" value="<?php echo $item->getData('max_size') ?>"></td>
+				   <td><input style="width:30px;" type="text" name="ligne[<?php echo $item->getId() ?>][sort_order]" id="sort_order<?php echo $item->getId() ?>" class="required-entry validate-number input-text" value="<?php echo $item->getData('sort_order') ?>"><?php echo $this->getDeleteButtonHtml() ?></td>
+				</tr>
+				<?php endforeach ?>
+				<tr id="ghost-ligne"">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+			<span class="required">**</span><small><?php echo Mage::helper('comparer')->__('If you choose "none", comparer get the default value. Or You can specify default value if the value of attribute is empty') ?></small><br/>
+			<span class="required">**</span><small><?php echo Mage::helper('comparer')->__('If "Number max of char" equals 0, the value of column is not truncated') ?></small>
+    	</div>
+    </div>
+	<?php echo $this->getAddNewButtonHtml() ?>
+</div>
+</div>
+<div><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><small>&copy; <?php echo $this->getButtonAutorize() ?></small></div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var lastId = 0;
+    var ligne = function() {
+        return {
+            del : function(obj) {
+                if( confirm('<?php echo Mage::helper('adminhtml')->__('Delete ?') ?>') ) {
+                    fieldSet = obj.up('tr');
+                    if( $(fieldSet.id) ) {
+                        var newElement = document.createElement('input');
+                        newElement.type = 'hidden';
+                        newElement.value = fieldSet.id.replace(/[a-z_]*/, '');;
+                        newElement.name = 'deleteLigne[]';
+                        $('lignes_container').appendChild(newElement);
+                    }
+                    fieldSet.remove();
+                }
+            },
+
+            add : function(obj) {
+				tr = $('ghost-ligne');
+				Element.insert(tr, {before: this.getTemplate()});
+            },
+
+            getTemplate : function() {
+                var id = this.createId();
+				
+				return '<tr id="id_' + id + '">'
+                       + '<td><input style="width:160px;" type="text" name="ligne['+id+'][csv]" id="csv'+id+'" class="required-entry input-text" size="45" value=""><\/td>'
+					   + '<td><select name="ligne['+id+'][attribute_code]" id="attribute_code'+id+'"><?php echo $this->getOptionsAttributes('', true) ?><\/select><\/td>'
+					   + '<td><input style="width:120px;" type="text" name="ligne['+id+'][default_value]" id="default_value'+id+'" class="input-text" size="60" value=""><\/td>'
+					   + '<td><input style="width:30px;" type="text" name="ligne['+id+'][max_size]" id="max_size'+id+'" class="required-entry validate-number input-text" value="0"><\/td>'
+					   + '<td><input style="width:30px;" type="text" name="ligne['+id+'][sort_order]" id="sort_order'+id+'" class="required-entry validate-number input-text" value="0"><?php echo $this->getDeleteButtonHtml() ?><\/td>'
+                       +'<\/tr>';
+            },
+
+            createId : function () {
+                return --lastId;
+            }
+        }
+    }();
+	
+	
+	function confirmComparer(){
+		if (!confirm('<?php  echo Mage::helper('adminhtml')->__('Are you sure you want to do this?') ?>')) {
+			return false;
+		}
+		if($('nb_comp').value != 0) {
+			alert("<?php  echo Mage::helper('comparer')->__('To delete one format, please delete first ALL exports using this format') ?>");
+			$('delChild').disabled = false;
+			$('delChild').className='scalable delete';
+		}else{
+			$('btnDelete').onclick = function (){
+				if (confirm('<?php  echo Mage::helper('adminhtml')->__('Are you sure you want to do this?') ?>')) {
+					setLocation($('url_delete').value);
+				}
+			}
+		}
+		return false;
+	}
+	
+	function deleteComparer(id, url, urlDelete){
+		if (!confirm('<?php  echo Mage::helper('adminhtml')->__('Are you sure you want to do this?') ?>')) {
+			return false;
+		}
+		
+		$('url_delete').value = urlDelete;
+		
+		new Ajax.Request (url, {
+			method : 'POST',
+			parameters:{'id':id},
+			onComplete :function (transport) {
+				$('nb_comp').value = 0;
+				$('delChild').disabled = true;
+				$('delChild').className = 'disabled';
+				alert("You can delete this format now");
+				$('btnDelete').onclick = function (){
+					if (confirm('<?php  echo Mage::helper('adminhtml')->__('Are you sure you want to do this?') ?>')) {
+						setLocation($('url_delete').value);
+					}
+				}
+			}
+		});
+	}
+	
+	
+//]]>
+</script>
