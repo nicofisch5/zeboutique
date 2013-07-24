@@ -29,7 +29,7 @@
 <config>
     <modules>
         <Zeboutique_Catalog>
-            <version>0.1.0</version>
+            <version>0.2.0</version>
         </Zeboutique_Catalog>
     </modules>
     
@@ -46,4 +46,28 @@
             </zcatalog_setup>
         </resources>
     </global>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <Zeboutique_Catalog>
+                    <files>
+                        <second>Zeboutique_Catalog.csv</second>
+                    </files>
+                </Zeboutique_Catalog>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <frontend>
+        <translate>
+            <modules>
+                <Zeboutique_Catalog>
+                    <files>
+                        <second>Zeboutique_Catalog.csv</second>
+                    </files>
+                </Zeboutique_Catalog>
+            </modules>
+        </translate>
+    </frontend>
 </config>
