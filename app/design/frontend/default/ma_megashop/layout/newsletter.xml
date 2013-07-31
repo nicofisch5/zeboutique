@@ -66,4 +66,14 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
     </newsletter_manage_index>
 
+    <newsletter_subscriber_subscription>
+        <remove name="left.newsletter" />
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="newsletter/subscribe" name="newsletter_subscriber_subscription" template="newsletter/subscriber/subscription.phtml" />
+        </reference>
+    </newsletter_subscriber_subscription>
+
 </layout>
