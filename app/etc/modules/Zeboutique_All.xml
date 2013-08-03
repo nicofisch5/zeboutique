@@ -39,14 +39,6 @@
                 <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Chantefeuille>
-    
-        <Zeboutique_Zcore>
-            <active>true</active>
-            <codePool>local</codePool>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Zeboutique_Zcore>
 
         <Zeboutique_Intimes>
             <active>true</active>
@@ -55,6 +47,14 @@
                 <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Intimes>
+
+        <Zeboutique_Newsletter>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Newsletter/>
+            </depends>
+        </Zeboutique_Newsletter>
 
         <Zeboutique_Paypal>
             <active>true</active>
@@ -87,5 +87,21 @@
                 <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Silamoda>
+
+        <Zeboutique_Tendancesensuelle>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Zcore/>
+            </depends>
+        </Zeboutique_Tendancesensuelle>
+
+        <Zeboutique_Zcore>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </Zeboutique_Zcore>
     </modules>
 </config>
