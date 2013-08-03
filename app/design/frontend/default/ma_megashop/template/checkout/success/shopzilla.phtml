@@ -1,0 +1,13 @@
+<?php $order = $this->getOrder(); ?>
+
+<script language="javascript">
+<!--
+    /* Performance Tracking Data */
+    var mid = '<?php echo $this->getMidNumber(); ?>';
+    var cust_type = '1';
+    var order_value = '<?php echo $order->getGrandTotal(); ?>';
+    var order_id = '<?php echo $order->getIncrementId(); ?>';
+    var units_ordered = '<?php echo (int) $order->getTotalQtyOrdered(); ?>';
+//-->
+</script>
+<script language="javascript" src="https://www.shopzilla.com/css/roi_tracker.js"></script>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Shopzilla>
+            <version>0.1.0</version>
+        </Zeboutique_Shopzilla>
+    </modules>
+    <global>
+        <blocks>
+            <shopzilla>
+                <class>Zeboutique_Shopzilla_Block</class>
+            </shopzilla>
+        </blocks>
+    </global>
+    <default>
+        <shopzilla>
+            <tracker>
+                <mid>280116</mid>
+            </tracker>
+        </shopzilla>
+    </default>
+</config>

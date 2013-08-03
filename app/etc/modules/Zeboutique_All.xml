@@ -71,14 +71,14 @@
                 <Mage_Sales/>
             </depends>
         </Zeboutique_Sales>
-        
-        <Zeboutique_Starnet>
+
+        <Zeboutique_Shopzilla>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
-                <Zeboutique_Zcore/>
+                <Mage_Checkout/>
             </depends>
-        </Zeboutique_Starnet>
+        </Zeboutique_Shopzilla>
         
         <Zeboutique_Silamoda>
             <active>true</active>
@@ -87,6 +87,14 @@
                 <Zeboutique_Zcore/>
             </depends>
         </Zeboutique_Silamoda>
+
+        <Zeboutique_Starnet>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Zcore/>
+            </depends>
+        </Zeboutique_Starnet>
 
         <Zeboutique_Tendancesensuelle>
             <active>true</active>
