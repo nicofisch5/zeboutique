@@ -1,0 +1,66 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+/*function toggleValueElementsWithCheckbox(checkbox) {
+    var td = $(checkbox.parentNode);
+    var checkboxes = td.getElementsBySelector('input[type="checkbox"]');
+    var inputs = td.getElementsBySelector('input[type!="checkbox"]', 'select', 'textarea');
+    if (checkboxes.size()>1) {
+        inputs.each(function(input){
+            input.disabled = (!checkbox.checked || checkboxes[0].checked);
+            checkboxes[0].disabled = !checkbox.checked;
+        });
+    } else {
+        inputs.each(function(input){
+            input.disabled = !checkbox.checked;
+        });
+    }
+}*/
+//]]>
+</script>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Price') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('catalog')->__('price') ?></legend>
+        <table cellspacing="0" class="form-list" id="table_catalogprice">
+            <tr>
+                <td class="label"><label for="price_ratio"><?php echo Mage::helper('catalog')->__('Ratio') ?><span class="required">*</span></label></td>
+                <td class="value">
+                    <input type="text" class="input-text required-entry validate-number" id="price_ration" name="<?php echo $this->getFieldSuffix(); ?>[ratio]" value="1.00" disabled="disabled" />
+                    <br /><input type="checkbox" id="price_ratio_checkbox" onclick="toggleValueElementsWithCheckbox(this)" />
+                    <label for="price_ratio_checkbox" class="normal"><?php echo Mage::helper('catalog')->__('Change'); ?></label>
+                    <br /><?php echo Mage::helper('catalog')->__('Ratio will be applied only on products that have a cost'); ?>
+                </td>
+                <td class="value scope-label"><?php echo Mage::helper('adminhtml')->__('[GLOBAL]') ?></td>
+            </tr>
+        </table>
+    </fieldset>
+</div>

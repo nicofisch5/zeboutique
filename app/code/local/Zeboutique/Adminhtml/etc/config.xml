@@ -38,8 +38,31 @@
             <adminhtml>
                 <rewrite>
                     <catalog_product_grid>Zeboutique_Adminhtml_Block_Catalog_Product_Grid</catalog_product_grid>
+                    <catalog_product_edit_action_attribute_tab_price>Zeboutique_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Price</catalog_product_edit_action_attribute_tab_price>
                 </rewrite>
             </adminhtml>
         </blocks>
     </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Zeboutique_Adminhtml before="Mage_Adminhtml">Zeboutique_Adminhtml</Zeboutique_Adminhtml>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <stores>
+        <admin>
+            <design>
+                <theme>
+                    <default>zeboutique</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
 </config>
