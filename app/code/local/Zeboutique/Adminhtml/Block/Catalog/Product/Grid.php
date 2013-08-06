@@ -119,9 +119,18 @@ class Zeboutique_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Blo
                 'left',
                 $store->getId()
             );
+            $collection->joinAttribute(
+                'cost',
+                'catalog_product/cost',
+                'entity_id',
+                null,
+                'left',
+                $store->getId()
+            );
         }
         else {
             $collection->addAttributeToSelect('price');
+            $collection->addAttributeToSelect('cost');
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
             $collection->joinAttribute('supplier', 'catalog_product/supplier', 'entity_id', null, 'left');
@@ -196,6 +205,15 @@ class Zeboutique_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Blo
         ));
 
         $store = $this->_getStore();
+
+        $this->addColumn('cost',
+            array(
+                'header'=> Mage::helper('catalog')->__('Cost'),
+                'type'  => 'price',
+                'currency_code' => $store->getBaseCurrency()->getCode(),
+                'index' => 'cost',
+            ));
+
         $this->addColumn('price',
             array(
                 'header'=> Mage::helper('catalog')->__('Price'),
