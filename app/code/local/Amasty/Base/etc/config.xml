@@ -2,8 +2,7 @@
 <config>
   <modules>
     <Amasty_Base>
-      <version>1.0.1</version>
-      <platform>ee</platform>
+      <version>1.0.3</version>
     </Amasty_Base>
   </modules>
   

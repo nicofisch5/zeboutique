@@ -2,16 +2,19 @@
 <config>
     <tabs>
         <amasty translate="label" module="ambase">
-            <label>Amasty Extensions</label>
+            <label><![CDATA[<div style="position: absolute;"><img id="amasty_block" src="" alt="" border="0" /></div>&nbsp;<script>
+            var n = SKIN_URL.indexOf("adminhtml");
+            $('amasty_block').src = SKIN_URL.substring(0, n) + "adminhtml/default/default/images/ambase/amasty.png";
+            </script>]]></label>
             <sort_order>400</sort_order>
         </amasty>
     </tabs>
 	<sections>
 		<ambase translate="label" module="ambase">
-			<label>General</label>
+			<label><![CDATA[General]]></label>
 			<tab>amasty</tab>
 			<frontend_type>text</frontend_type>
-			<sort_order>777</sort_order>
+			<sort_order>1</sort_order>
 			<show_in_default>1</show_in_default>
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
