@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Amasty_Catcopy>
+            <version>1.1.2</version>
+        </Amasty_Catcopy>
+    </modules>
+    
+    
+    <admin>
+        <routers>
+            <amcatcopy>
+                <use>admin</use>
+                <args>
+                    <module>Amasty_Catcopy</module>
+                    <frontName>amcatcopy</frontName>
+                </args>
+            </amcatcopy>
+        </routers>
+    </admin>
+    
+    
+    <frontend>
+        <translate>
+            <modules>
+                <Amasty_Catcopy>
+                    <files>
+                        <default>Amasty_Catcopy.csv</default>
+                    </files>
+                </Amasty_Catcopy>
+            </modules>
+        </translate>
+    </frontend>
+    
+    
+    
+    
+    <adminhtml>
+        <translate>
+            <modules>
+                <Amasty_Catcopy>
+                    <files>
+                        <default>Amasty_Catcopy.csv</default>
+                    </files>
+                </Amasty_Catcopy>
+            </modules>
+        </translate>
+    </adminhtml>
+    
+    
+    
+    
+    <global>
+    
+        <models>
+            <amcatcopy>
+                <class>Amasty_Catcopy_Model</class>
+                <resourceModel>amcatcopy_mysql4</resourceModel>
+            </amcatcopy>
+            
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <category>Amasty_Catcopy_Model_Catalog_Resource_Eav_Mysql4_Category</category>
+                </rewrite>
+            </catalog_resource_eav_mysql4>
+        </models>
+        
+		<resources>
+             <amcatcopy_setup>
+                <setup>
+                    <module>Amasty_Catcopy</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </amcatcopy_setup>
+		    <amcatcopy_write>
+		        <connection><use>core_write</use></connection>
+		    </amcatcopy_write>
+		    <amcatcopy_read>
+		        <connection><use>core_read</use></connection>
+		    </amcatcopy_read>
+		</resources>
+		  
+        <blocks>
+            <amcatcopy>
+                <class>Amasty_Catcopy_Block</class>
+            </amcatcopy>
+            
+            <adminhtml>
+                <rewrite>
+                    <catalog_category_edit_form>Amasty_Catcopy_Block_Adminhtml_Catalog_Category_Edit_Form</catalog_category_edit_form>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        
+        <helpers>
+            <amcatcopy>
+                <class>Amasty_Catcopy_Helper</class>
+            </amcatcopy>
+        </helpers>
+        
+    </global>
+    
+    
+    
+</config>
