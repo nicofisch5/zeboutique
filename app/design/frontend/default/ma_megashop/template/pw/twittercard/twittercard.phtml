@@ -1,0 +1,52 @@
+<?php
+if($this->getRequest()->getControllerName()=='product') {
+    $product = Mage::registry('current_product');
+
+    if($product) {
+        $url = $this->helper('core/url')->getCurrentUrl();  echo $currentUrl;
+        $title = $this->getLayout()->getBlock('head')->getTitle();
+        $description = $this->getLayout()->getBlock('head')->getDescription();
+        $image = $product->getImageUrl();
+
+        $taille = null;
+        $couleur = null;
+        foreach ($product->getData() as $key => $value) {
+            if (strpos($key, 'c2c_taille') !== false) {
+                $taille = $value;
+            } else if (strpos($key, 'c2c_couleur') !== false) {
+                $couleur = $value;
+            }
+        }
+
+        $pw_twittercard_config = Mage::getSingleton('pwtwittercard/config');
+        $twitter_username = $pw_twittercard_config->getTwitterUsername();
+        if(empty($twitter_username)){
+            $twitter_username = "@shipmycard";
+        }
+?>
+        <!-- NEW -->
+        <meta name="twitter:card" content="product">
+        <meta name="twitter:site" content="@<?php echo $twitter_username;?>">
+        <meta name="twitter:creator" content="@<?php echo $twitter_username;?>">
+        <meta name="twitter:title" content="<?php echo htmlspecialchars($title);?>">
+        <meta name="twitter:description" content="<?php echo htmlspecialchars($description);?>">
+        <meta name="twitter:image:src" content="<?php echo htmlspecialchars($image);?>">
+        <?php if ($taille): ?>
+            <meta name="twitter:data1" content="<?php echo $taille ?>">
+            <meta name="twitter:label1" content="Taille">
+        <?php else: ?>
+            <meta name="twitter:data1" content="<?php echo htmlspecialchars($title);?>">
+            <meta name="twitter:label1" content="Nom">
+        <?php endif; ?>
+        <?php if ($couleur): ?>
+            <meta name="twitter:data2" content="<?php echo $couleur ?>">
+            <meta name="twitter:label2" content="Couleur">
+        <?php else: ?>
+            <meta name="twitter:data2" content="<?php echo htmlspecialchars($description);?>">
+            <meta name="twitter:label2" content="Description">
+        <?php endif; ?>
+        <meta name="twitter:domain" content="<?php echo Mage::getBaseUrl(); ?>">
+<?php
+    }
+}
+?>
