@@ -2633,3 +2633,15 @@ tr.summary-details-excluded { font-style:italic; }
     background-color: #E72526;
     cursor: pointer;
 }
+
+/* Block news */
+.block-news {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+/* Manufacturers */
+ul.manufacturer li {
+    display: inline-block;
+}
