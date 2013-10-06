@@ -32,8 +32,15 @@
             <version>0.2.0</version>
         </Zeboutique_Catalog>
     </modules>
-    
+
     <global>
+        <models>
+            <catalog>
+                <rewrite>
+                    <product_url>Zeboutique_Catalog_Model_Product_Url</product_url>
+                </rewrite>
+            </catalog>
+        </models>
         <resources>
             <zcatalog_setup>
                 <setup>
