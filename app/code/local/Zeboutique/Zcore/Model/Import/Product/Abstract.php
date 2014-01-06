@@ -670,7 +670,7 @@ echo "process configurable <br>";
 
     /**
      * Import products entry point
-     *
+     *FAQ OVERVIEW
      * @return Zeboutique_Zcore_Model_Import_Product_Abstract
      */
     public function importProducts()
