@@ -66,21 +66,20 @@ class Zeboutique_Ilxelle_Model_Stock extends Zeboutique_Zcore_Model_Stock
         
         try {
             while (false !== ($csvLine = $io->streamReadCsv(";"))) {
-                // Colonne options B est vide et "2" en colonne C --> on mets le produit en stock avec la quantité "1"
-                if ($csvLine[0] && !$csvLine[1] && $csvLine[2] == '2') {
-                    $this->_stockData[] = array($csvLine[0], 1);
-                }
-                // Colonne options B n'est pas vide et il y a "2" en colonne C --> on mets le produit en stock avec la quantité "1"
-                else if ($csvLine[0] && $csvLine[1] && $csvLine[2] == '2') {
-                    $this->_stockData[] = array($csvLine[0], 1);
+                $sku = $csvLine[0];
+
+                if ($sku && $csvLine[2] == '2') {
+                    if ($csvLine[1]) {
+                        $sku .= '---'.$csvLine[1];
+                    }
+
+                    $this->_stockData[] = array($sku, 1);
                 }
             }
         } catch (Mage_Core_Exception $e) {
-            $adapter->rollback();
             $io->streamClose();
             echo 'Erreur : '.$e->getMessage();
         } catch (Exception $e) {
-            $adapter->rollback();
             $io->streamClose();
             Mage::logException($e);
             echo 'Erreur : '.$e->getMessage();
