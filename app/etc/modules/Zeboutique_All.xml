@@ -40,6 +40,14 @@
             </depends>
         </Zeboutique_Chantefeuille>
 
+        <Zeboutique_Ilxelle>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Zeboutique_Zcore/>
+            </depends>
+        </Zeboutique_Ilxelle>
+
         <Zeboutique_Intimes>
             <active>true</active>
             <codePool>local</codePool>

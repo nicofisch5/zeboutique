@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Ilxelle>
+            <version>0.1.0</version>
+        </Zeboutique_Ilxelle>
+    </modules>
+    <global>
+        <models>
+            <ilxelle>
+                <class>Zeboutique_Ilxelle_Model</class>
+            </ilxelle>
+        </models>
+    </global>
+
+    <frontend>
+        <routers>
+            <ilxelle>
+                <use>standard</use>
+                <args>
+                    <module>Zeboutique_Ilxelle</module>
+                    <frontName>ilxelle</frontName>
+                </args>
+            </ilxelle>
+        </routers>
+    </frontend>
+
+    <crontab>
+        <jobs>
+            <ilxelle_stock_update1>
+                <schedule>
+                    <cron_expr>00 06 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ilxelle/stock::updateStock</model>
+                </run>
+            </ilxelle_stock_update1>
+        </jobs>
+    </crontab>
+</config>
