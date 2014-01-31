@@ -33,9 +33,9 @@
 <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
     <li class="form-alt"><?php echo $this->getRedirectMessage() ?></li>
     <li class="form-alt"><?php echo $this->__('Moyens de paiement disponlibles : CB, VISA, MASTERCARD, PAYPAL, ...'); ?></li>
-    <li class="form-alt">
+    <!--li class="form-alt">
         <img alt="CB, VISA, MASTERCARD, PAYPAL" src="<?php echo Mage::getBaseUrl('media').'/wysiwyg/visa-mc-amex-paypal-64.png'; ?>">
-    </li>
+    </li-->
     <?php if ($code = $this->getCreateBACode()): ?>
         <li class="form-alt">
             <label for="<?php echo $code ?>"><input type="checkbox" id="<?php echo $code ?>" value="1" name="payment[<?php echo $code ?>]" class="checkbox" />
