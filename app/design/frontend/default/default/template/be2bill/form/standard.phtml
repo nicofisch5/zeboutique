@@ -1,0 +1,59 @@
+<?php
+/**
+ * 1997-2014 Quadra Informatique
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is available
+ * through the world-wide-web at this URL: http://www.opensource.org/licenses/OSL-3.0
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to modules@quadra-informatique.fr so we can send you a copy immediately.
+ *
+ * @author Quadra Informatique <modules@quadra-informatique.fr>
+ * @copyright 1997-2014 Quadra Informatique
+ * @license http://www.opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+?>
+<?php $_code = $this->getMethodCode(); ?>
+<?php if ($this->oneClickIsAllowed() && !$this->iframeIsAllowed()) : ?>
+    <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none">
+        <li>
+            <?php if ($this->getCustomerHasAlias() && !$this->ccExpDateIsValid()) : ?>
+                <div class="input-box">
+                    <input id="<?php echo $_code ?>_create_alias_oneclick" <?php echo $this->getQuote()->isNominal() ? 'required="required" class="required-entry"' : "" ?> value="create_oneclick"  type="checkbox" name="payment[oneclick][]" />
+                    <label style="float: none;" for="<?php echo $_code ?>_create_alias_oneclick"><?php echo $this->__('Record your card data for a next buy.') ?></label>
+                </div>
+            <?php elseif ($this->getCustomerHasAlias() && $this->ccExpDateIsValid()): ?>
+                <div class="input-box">
+                    <input id="<?php echo $_code ?>_use_alias_oneclick" value="use_oneclick" checked="checked" required="required" class="validate-one-required-by-name" type="radio" name="payment[oneclick][<?php echo $_code ?>]" <?php if ($this->useCVV()) : ?> onclick="$('<?php echo $_code ?>_cc_cid').show(); $('<?php echo $_code ?>_label_cvv_oneclick').show();" <?php endif; ?> />
+                    <label style="float: none;" for="<?php echo $_code ?>_use_alias_oneclick"><?php echo $this->__('Use my recorded card') ?></label>
+                </div>
+                <div class="input-box info-card">
+                    <label><?php echo $this->__('Actual card') ?> :</label>
+                    <span><?php echo $this->getCustomer()->getBe2billCcNumberEnc() ?></span>
+                </div>
+                <div class="input-box info-card">
+                    <label><?php echo $this->__('Expiration date') ?> : <?php echo $this->getCustomer()->getBe2billCcExpDate() ?></label>
+                </div>
+                <?php if ($this->useCVV()) : ?>
+                    <input id="<?php echo $_code ?>_cc_type" value="VI" type="hidden" name="payment[cc_type]" />
+                    <div class="input-box">
+                        <input id="<?php echo $_code ?>_cc_cid" required="required" class="input-text cvv required-entry validate-cc-cvn" type="text" name="payment[cvv_oneclick]" autocomplete="off" />
+                        <label id="<?php echo $_code ?>_label_cvv_oneclick" style="float: none;" for="<?php echo $_code ?>_oneclick" class="required" ><em>*</em><?php echo $this->__('Enter your CVV code') ?></label>
+                    </div>
+                    <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+                <?php endif; ?>
+                <div class="input-box">
+                    <input id="<?php echo $_code ?>_create_alias_oneclick" required="required" class="validate-one-required-by-name" type="radio" name="payment[oneclick][<?php echo $_code ?>]" value="create_oneclick" <?php if ($this->useCVV()) : ?> onclick="$('<?php echo $_code ?>_cc_cid').hide(); $('<?php echo $_code ?>_label_cvv_oneclick').hide();" <?php endif; ?> />
+                    <label style="float: none;" for="<?php echo $_code ?>_create_alias_oneclick"><?php echo $this->__('Record new card data') ?></label>
+                </div>
+                <?php if (!$this->getQuote()->isNominal()) : ?>
+                    <div class="input-box">
+                        <input id="<?php echo $_code ?>_not_oneclick" type="radio" name="payment[oneclick][<?php echo $_code ?>]" class="validate-one-required-by-name" value="not_oneclick" <?php if ($this->useCVV()) : ?> onclick="$('<?php echo $_code ?>_cc_cid').hide(); $('<?php echo $_code ?>_label_cvv_oneclick').hide();" <?php endif; ?> />
+                        <label style="float: none;" for="<?php echo $_code ?>_not_oneclick"><?php echo $this->__('Not use record card data') ?></label>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+        </li>
+    </ul>
+<?php endif; ?>

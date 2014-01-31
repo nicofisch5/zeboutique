@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * 1997-2014 Quadra Informatique
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is available
+ * through the world-wide-web at this URL: http://www.opensource.org/licenses/OSL-3.0
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to modules@quadra-informatique.fr so we can send you a copy immediately.
+ *
+ * @author Quadra Informatique <modules@quadra-informatique.fr>
+ * @copyright 1997-2014 Quadra Informatique
+ * @license http://www.opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Quadra_Be2bill>
+            <version>2.0.1</version>
+        </Quadra_Be2bill>
+    </modules>
+    <global>
+        <blocks>
+            <be2bill>
+                <class>Quadra_Be2bill_Block</class>
+            </be2bill>
+        </blocks>
+        <models>
+            <be2bill>
+                <class>Quadra_Be2bill_Model</class>
+            </be2bill>
+        </models>
+        <resources>
+            <be2bill_setup>
+                <setup>
+                    <module>Quadra_Be2bill</module>
+                </setup>
+            </be2bill_setup>
+        </resources>
+        <helpers>
+            <be2bill>
+                <class>Quadra_Be2bill_Helper</class>
+            </be2bill>
+        </helpers>
+        <translate>
+            <modules>
+                <Quadra_Be2bill>
+                    <files>
+                        <default>Quadra_Be2bill.csv</default>
+                    </files>
+                </Quadra_Be2bill>
+            </modules>
+        </translate>
+        <sales>
+            <order>
+                <statuses>
+                    <!-- retained for backwards compatibility, not used after version 1.4.2 -->
+                    <pending_be2bill translate="label">
+                        <label>Pending Capture Be2bill</label>
+                    </pending_be2bill>
+                </statuses>
+            </order>
+        </sales>
+    </global>
+    <frontend>
+        <secure_url>
+            <be2bill_standard>/be2bill/standard</be2bill_standard>
+            <be2bill_several>/be2bill/several</be2bill_several>
+            <be2bill_amex>/be2bill/amex</be2bill_amex>
+            <be2bill_paypal>/be2bill/paypal</be2bill_paypal>
+            <be2bill_template>/be2bill/template</be2bill_template>
+            <be2bill_checkout_oneclick>/be2bill/checkout_oneclick</be2bill_checkout_oneclick>
+        </secure_url>
+        <routers>
+            <be2bill>
+                <use>standard</use>
+                <args>
+                    <module>Quadra_Be2bill</module>
+                    <frontName>be2bill</frontName>
+                </args>
+            </be2bill>
+        </routers>
+        <translate>
+            <modules>
+                <Quadra_Be2bill>
+                    <files>
+                        <default>Quadra_Be2bill.csv</default>
+                    </files>
+                </Quadra_Be2bill>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <be2bill>
+                    <file>be2bill.xml</file>
+                </be2bill>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_predispatch_checkout_cart_index>
+                <observers>
+                    <be2bill_alert_on_cart>
+                        <type>singleton</type>
+                        <class>be2bill/observer</class>
+                        <method>notitifyCcExpDate</method>
+                    </be2bill_alert_on_cart>
+                </observers>
+            </controller_action_predispatch_checkout_cart_index>
+            <checkout_submit_all_after>
+                <observers>
+                    <be2bill_recurring_redirect_url>
+                        <type>singleton</type>
+                        <class>be2bill/observer</class>
+                        <method>setRedirectUrl</method>
+                    </be2bill_recurring_redirect_url>
+                </observers>
+            </checkout_submit_all_after>
+        </events>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Quadra_Be2bill>
+                    <files>
+                        <default>Quadra_Be2bill.csv</default>
+                    </files>
+                </Quadra_Be2bill>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <be2bill>
+                    <file>be2bill.xml</file>
+                </be2bill>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <be2bill>
+                                            <children>
+                                                <be2bill_api  translate="title">
+                                                    <title>Be2bill API</title>
+                                                </be2bill_api>
+                                            </children>
+                                        </be2bill>
+                                        <payment>
+                                            <children>
+                                                <be2bill_standard translate="title">
+                                                    <title>Be2bill payment</title>
+                                                </be2bill_standard>
+                                                <be2bill_several translate="title">
+                                                    <title>Be2bill several</title>
+                                                </be2bill_several>
+                                                <be2bill_amex translate="title">
+                                                    <title>Be2bill AMEX</title>
+                                                </be2bill_amex>
+                                                <be2bill_paypal translate="title">
+                                                    <title>Be2bill PayPal</title>
+                                                </be2bill_paypal>
+                                            </children>
+                                        </payment>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <be2bill>
+            <be2bill_api>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <uri_form></uri_form>
+                <uri_form_test>https://secure-test.be2bill.com/front/form/process</uri_form_test>
+                <uri_rest></uri_rest>
+                <uri_rest_high_dispo></uri_rest_high_dispo>
+                <uri_rest_test>https://secure-test.be2bill.com/front/service/rest/process</uri_rest_test>
+            </be2bill_api>
+            <be2bill_amex_api>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <uri_form></uri_form>
+                <uri_form_test>https://secure-test.be2bill.com/front/form/process</uri_form_test>
+                <uri_rest></uri_rest>
+                <uri_rest_high_dispo></uri_rest_high_dispo>
+                <uri_rest_test>https://secure-test.be2bill.com/front/service/rest/process</uri_rest_test>
+            </be2bill_amex_api>
+            <be2bill_paypal_api>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <uri_form></uri_form>
+                <uri_form_test>https://secure-test.be2bill.com/front/form/process</uri_form_test>
+                <uri_rest></uri_rest>
+                <uri_rest_high_dispo></uri_rest_high_dispo>
+                <uri_rest_test>https://secure-test.be2bill.com/front/service/rest/process</uri_rest_test>
+            </be2bill_paypal_api>
+            <product_oneclick>
+                <payment_method>be2bill_standard</payment_method>
+                <shipping_method>flatrate</shipping_method>
+            </product_oneclick>
+        </be2bill>
+        <payment>
+            <be2bill_standard>
+                <model>be2bill/standard</model>
+                <title>Payer par carte bancaire</title>
+                <payment_action>authorize_capture</payment_action>
+                <cancel_capture_auto>1</cancel_capture_auto>
+                <order_canceled_limited_time>60</order_canceled_limited_time>
+                <allowspecific>0</allowspecific>
+                <use_3dsecure>0</use_3dsecure>
+                <allow_use_oneclick>0</allow_use_oneclick>
+                <allow_recurring_profile>0</allow_recurring_profile>
+                <use_cvv_oneclick>0</use_cvv_oneclick>
+                <hide_client_email>1</hide_client_email>
+                <hide_card_fullname>1</hide_card_fullname>
+                <debug>0</debug>
+                <is_test_mode>0</is_test_mode>
+                <allow_range_ips>80.70.213.64/27,80.70.210.64/27,80.70.210.32/27</allow_range_ips>
+                <auth_validity_day>7</auth_validity_day>
+                <statues_order_to_clean>pending_be2bill</statues_order_to_clean><!-- if you had some one, separe them by comma -->
+            </be2bill_standard>
+            <be2bill_several>
+                <payment_action>authorize_capture</payment_action>
+                <model>be2bill/several</model>
+                <n_times>3</n_times>
+                <title>Paiement en 3 fois</title>
+                <cancel_capture_auto>1</cancel_capture_auto>
+                <order_canceled_limited_time>60</order_canceled_limited_time>
+                <allowspecific>0</allowspecific>
+                <use_3dsecure>0</use_3dsecure>
+                <allow_use_oneclick>0</allow_use_oneclick>
+                <allow_recurring_profile>0</allow_recurring_profile>
+                <use_cvv_oneclick>0</use_cvv_oneclick>
+                <hide_client_email>1</hide_client_email>
+                <hide_card_fullname>1</hide_card_fullname>
+                <debug>0</debug>
+                <is_test_mode>0</is_test_mode>
+                <allow_range_ips>80.70.213.64/27,80.70.210.64/27,80.70.210.32/27</allow_range_ips>
+                <auth_validity_day>7</auth_validity_day>
+                <statues_order_to_clean>pending_be2bill</statues_order_to_clean><!-- if you had some one, separe them by comma -->
+            </be2bill_several>
+            <be2bill_amex>
+                <model>be2bill/amex</model>
+                <title>Payer par carte American Express</title>
+                <payment_action>authorize_capture</payment_action>
+                <cancel_capture_auto>1</cancel_capture_auto>
+                <order_canceled_limited_time>60</order_canceled_limited_time>
+                <allowspecific>0</allowspecific>
+                <hide_client_email>1</hide_client_email>
+                <hide_card_fullname>1</hide_card_fullname>
+                <debug>0</debug>
+                <is_test_mode>0</is_test_mode>
+                <allow_range_ips>80.70.213.64/27,80.70.210.64/27,80.70.210.32/27</allow_range_ips>
+                <auth_validity_day>7</auth_validity_day>
+                <statues_order_to_clean>pending_be2bill</statues_order_to_clean><!-- if you had some one, separe them by comma -->
+            </be2bill_amex>
+            <be2bill_paypal>
+                <model>be2bill/paypal</model>
+                <title>Payer avec PayPal</title>
+                <payment_action>authorize_capture</payment_action>
+                <cancel_capture_auto>1</cancel_capture_auto>
+                <order_canceled_limited_time>60</order_canceled_limited_time>
+                <allowspecific>0</allowspecific>
+                <hide_client_email>1</hide_client_email>
+                <hide_card_fullname>1</hide_card_fullname>
+                <debug>0</debug>
+                <is_test_mode>0</is_test_mode>
+                <allow_range_ips>80.70.213.64/27,80.70.210.64/27,80.70.210.32/27</allow_range_ips>
+                <auth_validity_day>7</auth_validity_day>
+                <statues_order_to_clean>pending_be2bill</statues_order_to_clean><!-- if you had some one, separe them by comma -->
+            </be2bill_paypal>
+        </payment>
+    </default>
+    <crontab>
+        <jobs>
+            <submit_recurring_profiles>
+                <schedule>
+                    <cron_expr>0 5,8,12,16,19,21 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>be2bill/observer::submitRecurringProfiles</model>
+                </run>
+            </submit_recurring_profiles>
+            <clean_orders_be2bill>
+                <schedule>
+                    <cron_expr>0 4 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>be2bill/observer::cleanOrdersInPendingBe2bill</model>
+                </run>
+            </clean_orders_be2bill>
+            <clean_orders_be2bill_in_pending>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>be2bill/observer::cancelOrdersInPending</model>
+                </run>
+            </clean_orders_be2bill_in_pending>
+        </jobs>
+    </crontab>
+</config>

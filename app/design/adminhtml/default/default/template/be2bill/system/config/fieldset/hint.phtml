@@ -1,0 +1,27 @@
+<?php
+/**
+ * 1997-2014 Quadra Informatique
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is available
+ * through the world-wide-web at this URL: http://www.opensource.org/licenses/OSL-3.0
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to modules@quadra-informatique.fr so we can send you a copy immediately.
+ *
+ * @author Quadra Informatique <modules@quadra-informatique.fr>
+ * @copyright 1997-2014 Quadra Informatique
+ * @license http://www.opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+?>
+<div class="be2bill-api-notice">
+    <span style="font-size:14px">Paramètres à saisir sur <a href="https://extranet.be2bill.com/" target="_blank">l'extranet be2bill</a> :</span>
+    <ul style="margin:10px">
+        <li><strong>URL de notification de transactions :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/standard/ipn/</em></li>
+        <li><strong>URL de notification d'impayés :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/standard/ipn/</em></li>
+        <li><strong>URL du modèle de formulaire :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/template/ssl/</em> ou bien une page CMS contenant la variable %PLACEHOLDER%</li>
+        <li><strong>URL du modèle de formulaire avec utilisation d'une iframe :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/template/iframe/</em> ou bien une page CMS contenant la variable %PLACEHOLDER%</li>
+        <li><strong>URL de redirection après un traitement formulaire ou 3DSECURE :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/standard/return/</em></li>
+        <li><strong>URL de redirection lors de l'annulation d'un traitement formulaire :</strong> <em><?php echo Mage::getBaseUrl('web', true) ?>be2bill/standard/cancel/</em></li>
+    </ul>
+</div>

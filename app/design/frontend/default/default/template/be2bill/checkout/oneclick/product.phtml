@@ -1,0 +1,46 @@
+<?php
+/**
+ * 1997-2014 Quadra Informatique
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is available
+ * through the world-wide-web at this URL: http://www.opensource.org/licenses/OSL-3.0
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to modules@quadra-informatique.fr so we can send you a copy immediately.
+ *
+ * @author Quadra Informatique <modules@quadra-informatique.fr>
+ * @copyright 1997-2014 Quadra Informatique
+ * @license http://www.opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ */
+?>
+<?php if ($this->canOneclick()): ?>
+    <div class="be2bill-<?php echo $this->getProduct()->getTypeId() ?>-product-oneclick">
+        <div class="be2bill-product-oneclick-content">
+            <span class="or"><?php echo $this->__('OR') ?>&nbsp;<?php echo $this->__('Order in a click with Be2bill') ?></span>
+            <?php if ($this->customerHasAddresses()): ?>
+                <div class="field">
+                    <label for="shipping-address-select"><?php echo $this->__('Select an address from your address book:') ?></label>
+                    <div class="input-box">
+                        <?php echo $this->getAddressesHtmlSelect('shipping') ?>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="use-default-shipping-method"><?php echo $this->__('Select a shipping method:') ?></label>
+                    <div class="input-box">
+                        <select title="" class="select" id="use-default-shipping-method" name="use_default_shipping_method">
+                            <option value="1"><?php echo $this->__('Standard shipping method') ?></option>
+                            <option value="0"><?php echo $this->__('Choose another shipping method') ?></option>
+                        </select>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="actions">
+                <button type="button" title="<?php echo $this->__('Pay') ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this, '<?php echo $this->getSubmitUrl($this->getProduct(), array('method' => 'standard', '_secure' => true)) ?>');"><span><span><?php echo $this->__('Pay') ?></span></span></button>
+                <?php if ($this->canSeveralOneclick()): ?>
+                    <button type="button" title="<?php echo $this->__('Pay in 3 times') ?>" class="button btn-cart  last" onclick="productAddToCartForm.submit(this, '<?php echo $this->getSubmitUrl($this->getProduct(), array('method' => 'several', '_secure' => true)) ?>');"><span><span><?php echo $this->__('Pay in 3 times') ?></span></span></button>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
