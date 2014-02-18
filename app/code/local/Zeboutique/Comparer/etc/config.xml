@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Comparer>
+            <version>0.1.0</version>
+        </Zeboutique_Comparer>
+    </modules>
+    <global>
+        <blocks>
+            <comparer>
+                <rewrite>
+                    <adminhtml_comparer_edit_product>Zeboutique_Comparer_Block_Adminhtml_Comparer_Edit_Product</adminhtml_comparer_edit_product>
+                </rewrite>
+            </comparer>
+        </blocks>
+    </global>
+</config>

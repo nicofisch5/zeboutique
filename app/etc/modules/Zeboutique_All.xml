@@ -40,6 +40,14 @@
             </depends>
         </Zeboutique_Chantefeuille>
 
+        <Zeboutique_Comparer>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Dredd_Comparer/>
+            </depends>
+        </Zeboutique_Comparer>
+
         <Zeboutique_Ilxelle>
             <active>true</active>
             <codePool>local</codePool>
