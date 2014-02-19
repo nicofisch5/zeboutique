@@ -69,22 +69,6 @@
                     <model>busyx/stock::updateStock</model>
                 </run>
             </busyx_stock_update1>
-            <!--busyx_stock_update2>
-                <schedule>
-                    <cron_expr>00 11 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>busyx/stock::updateStock</model>
-                </run>
-            </busyx_stock_update2>
-            <busyx_stock_update3>
-                <schedule>
-                    <cron_expr>30 16 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>busyx/stock::updateStock</model>
-                </run>
-            </busyx_stock_update3-->
         </jobs>
     </crontab>
 </config>

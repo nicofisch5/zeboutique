@@ -35,7 +35,7 @@
 class Zeboutique_Busyx_Model_Stock extends Zeboutique_Zcore_Model_Stock
 {
     
-    const URL_STOCK_FILE = 'http://www.busyx-pro.com/csv_proengine.php'; //'http://www.busyx-pro.com/csv_proengine.php';
+    const URL_STOCK_FILE = 'http://www.busyx-pro.com/csv_proengine.php';
     const PATH_STOCK_FILE = 'var/import/';
     const BUSYX_OPTION_ID = 314;
 
@@ -53,6 +53,7 @@ class Zeboutique_Busyx_Model_Stock extends Zeboutique_Zcore_Model_Stock
             $outputfile = self::PATH_STOCK_FILE.$this->_prefix.".csv";
             // Prepare shell command
             $cmd = "wget -q \"".self::URL_STOCK_FILE."\" -O $outputfile";
+echo $cmd;
             // Execute shell command
             exec($cmd);
 

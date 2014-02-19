@@ -29,45 +29,15 @@
 <config>
     <modules>
         <Zeboutique_Zcore>
-            <version>0.2.0</version>
+            <version>0.1.0</version>
         </Zeboutique_Zcore>
     </modules>
-
-    <global>
+    
+    <global>        
         <models>
             <zcore>
                 <class>Zeboutique_Zcore_Model</class>
             </zcore>
         </models>
-
-        <helpers>
-            <zcore>
-                <class>Zeboutique_Zcore_Helper</class>
-            </zcore>
-        </helpers>
-
-        <resources>
-            <zcore_setup>
-                <setup>
-                    <module>Zeboutique_Zcore</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
-                </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </zcore_setup>
-        </resources>
     </global>
-
-    <adminhtml>
-        <translate>
-            <modules>
-                <Zeboutique_Zcore>
-                    <files>
-                        <default>Zeboutique_Zcore.csv</default>
-                    </files>
-                </Zeboutique_Zcore>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

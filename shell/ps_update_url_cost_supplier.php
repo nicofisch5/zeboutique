@@ -36,7 +36,7 @@ require_once 'abstract.php';
 class Zemode_Shell_UpdateSku extends Mage_Shell_Abstract
 {
     
-    const FILENAME = 'ps_product_luxe.csv';
+    const FILENAME = 'ps_cosmetique.csv';
     
     protected $_attributeOptions = array();
     

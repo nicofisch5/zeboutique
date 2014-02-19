@@ -79,7 +79,7 @@
             </intimes_stock_update2>
             <intimes_stock_update3>
                 <schedule>
-                    <cron_expr>50 16 * * *</cron_expr>
+                    <cron_expr>40 16 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>intimes/stock::updateStock</model>
