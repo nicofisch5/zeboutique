@@ -12,7 +12,7 @@
 .ma-featured-vertscroller-wrap .jcarousel-container {
 }
 #ma-featured-vertscroller-right, #ma-featured-vertscroller-left {
-	height: 5555px !important;
+	height: auto !important;
 }
 
 .ma-featured-vertscroller-wrap  .jcarousel-container-vertical {

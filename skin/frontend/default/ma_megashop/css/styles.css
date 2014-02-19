@@ -2645,3 +2645,7 @@ tr.summary-details-excluded { font-style:italic; }
 ul.manufacturer li {
     display: inline-block;
 }
+
+li.newproductslider-item {
+    width: 350px;
+}
