@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Catcopy>
+            <version>0.1.0</version>
+        </Zeboutique_Catcopy>
+    </modules>
+    <global>
+        <models>
+            <zeboutique_catcopy>
+                <class>Zeboutique_Catcopy_Model</class>
+                <resourceModel>zeboutique_catcopy_resource</resourceModel>
+            </zeboutique_catcopy>
+            <zeboutique_catcopy_resource>
+                <class>Zeboutique_Catcopy_Model_Resource</class>
+            </zeboutique_catcopy_resource>
+        </models>
+        <blocks>
+            <zeboutique_catcopy>
+                <class>Zeboutique_Catcopy_Block</class>
+            </zeboutique_catcopy>
+            <amcatcopy>
+                <rewrite>
+                    <adminhtml_catalog_category_duplicate>Zeboutique_Catcopy_Block_Adminhtml_Catalog_Category_Duplicate</adminhtml_catalog_category_duplicate>
+                </rewrite>
+            </amcatcopy>
+        </blocks>
+    </global>
+
+    <admin>
+        <routers>
+            <amcatcopy>
+                <args>
+                    <modules>
+                        <zeboutique_catcopy before="Amasty_Catcopy">Zeboutique_Catcopy</zeboutique_catcopy>
+                    </modules>
+                </args>
+            </amcatcopy>
+        </routers>
+    </admin>
+</config>
