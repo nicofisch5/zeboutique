@@ -42,13 +42,12 @@ class Zeboutique_Comparer_Block_Adminhtml_Comparer_Edit_Product extends Dredd_Co
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
+            ->addAttributeToSelect('manufacturer')
             ->addStoreFilter($this->_getStore());
 
         $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $this->_getStore());
         $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $this->_getStore());
         $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $this->_getStore());
-
-        $collection->joinAttribute('manufacturer', 'catalog_product/manufacturer', 'entity_id', null, 'left', $this->_getStore());
 
         //filtre sur stock
         $stock = Dredd_Comparer_Model_Comparer::C_STOCK;
@@ -141,7 +140,7 @@ class Zeboutique_Comparer_Block_Adminhtml_Comparer_Edit_Product extends Dredd_Co
         if ($attr->getFrontendInput() == 'select') {
             $values = Mage::getResourceModel( 'eav/entity_attribute_option_collection' )->setAttributeFilter(
                 $attr->getId() )
-                ->setStoreFilter( $this->_getStore(), false)
+                ->setStoreFilter(0, false)
                 ->load();
 
             $options = array();
