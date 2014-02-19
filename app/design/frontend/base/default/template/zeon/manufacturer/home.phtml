@@ -6,7 +6,7 @@
     <div class="block-content">
     <form id="pollForm" action="<?php echo $this->getUrl('manufacturers') ?>" method="post" >
 	<?php $_iterator = 0; ?>
-	    <ul class="products-grid first">
+	    <ul class="products-grid first manufacturer">
 	    <?php foreach ($_manufacturersCollection as $_manufacturer): ?>
 	        <li class="item<?php if( ++$_iterator == sizeof($_manufacturersCollection) ): ?> last<?php endif; ?>">
 	            <a class="product-images" href="<?php echo $this->getUrl('manufacturers' . '/' . $_manufacturer->getIdentifier()) ?>" title="<?php echo $_manufacturer->getManufacturer() ?>"><img alt="<?php echo $_manufacturer->getManufacturerLogo() ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'manufacturer' . '/' . $_manufacturer->getManufacturerLogo() ?>" width="40" height="40"></a>
