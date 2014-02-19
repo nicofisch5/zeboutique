@@ -70,7 +70,7 @@ class Zeon_Manufacturer_Block_View extends Mage_Catalog_Block_Product_Abstract
             ->addAttributeToFilter('manufacturer', $manufacturerId);
         
         }
-        
+
         return $this->_manufacturerCollection;
     }
     
