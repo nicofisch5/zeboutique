@@ -1,7 +1,7 @@
 <?php if($this->getRequest()->getControllerName()=='product'):?>
 <?php $product = Mage::registry('current_product'); 
 if($product):
-$url = $this->helper('core/url')->getCurrentUrl();  echo $currentUrl;
+$url = $this->helper('core/url')->getCurrentUrl();  //echo $currentUrl;
 $title = $this->getLayout()->getBlock('head')->getTitle();
 $description = $this->getLayout()->getBlock('head')->getDescription(); 
 $image = $product->getImageUrl();
