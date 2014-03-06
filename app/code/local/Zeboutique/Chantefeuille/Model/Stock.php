@@ -35,7 +35,8 @@
 class Zeboutique_Chantefeuille_Model_Stock extends Zeboutique_Zcore_Model_Stock
 {
     
-    const URL_STOCK_FILE = 'http://www.chantefeuille.fr/modules/moussiq/export/7146bb50a9f93537b5e196e3f92b0fcb04428668.csv';
+    //const URL_STOCK_FILE = 'http://www.chantefeuille.fr/modules/moussiq/export/7146bb50a9f93537b5e196e3f92b0fcb04428668.csv';
+    const URL_STOCK_FILE = 'http://www.cfeminin.com/modules/moussiq/export/7146bb50a9f93537b5e196e3f92b0fcb04428668.csv';
     
     protected $_prefix = 'chantefeuille';
 
@@ -67,14 +68,14 @@ class Zeboutique_Chantefeuille_Model_Stock extends Zeboutique_Zcore_Model_Stock
         try {
             while (false !== ($csvLine = $io->streamReadCsv(";"))) {
                 // Before injecting data we check if SKU already exists in file
-                if (array_key_exists($csvLine[2], $this->_stockData)) {
+                if (array_key_exists($csvLine[1], $this->_stockData)) {
                     // If exists we check label
                     if (substr($csvLine[3], 0, 7) == 'Maillot') {
                         continue;
                     }
                 }
 
-                $this->_stockData[$csvLine[2]] = array($csvLine[2], $csvLine[6]);
+                $this->_stockData[$csvLine[1]] = array($csvLine[1], $csvLine[7]);
             }
         } catch (Mage_Core_Exception $e) {
             $adapter->rollback();
