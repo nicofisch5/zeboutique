@@ -63,12 +63,20 @@
         <jobs>
             <busyx_stock_update1>
                 <schedule>
-                    <cron_expr>20 05 * * *</cron_expr>
+                    <cron_expr>24 01 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>busyx/stock::updateStock</model>
                 </run>
             </busyx_stock_update1>
+            <busyx_stock_update2>
+                <schedule>
+                    <cron_expr>24 05 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>busyx/stock::updateStock</model>
+                </run>
+            </busyx_stock_update2>
         </jobs>
     </crontab>
 </config>

@@ -57,12 +57,20 @@
         <jobs>
             <tendancesensuelle_stock_update1>
                 <schedule>
-                    <cron_expr>50 05 * * *</cron_expr>
+                    <cron_expr>40 01 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>tendancesensuelle/stock::updateStock</model>
                 </run>
             </tendancesensuelle_stock_update1>
+            <tendancesensuelle_stock_update2>
+                <schedule>
+                    <cron_expr>40 05 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>tendancesensuelle/stock::updateStock</model>
+                </run>
+            </tendancesensuelle_stock_update2>
         </jobs>
     </crontab>
 </config>

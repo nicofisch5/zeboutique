@@ -63,7 +63,7 @@
         <jobs>
             <intimes_stock_update1>
                 <schedule>
-                    <cron_expr>40 05 * * *</cron_expr>
+                    <cron_expr>32 01 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>intimes/stock::updateStock</model>
@@ -71,7 +71,7 @@
             </intimes_stock_update1>
             <intimes_stock_update2>
                 <schedule>
-                    <cron_expr>40 11 * * *</cron_expr>
+                    <cron_expr>32 05 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>intimes/stock::updateStock</model>
@@ -79,12 +79,20 @@
             </intimes_stock_update2>
             <intimes_stock_update3>
                 <schedule>
-                    <cron_expr>40 16 * * *</cron_expr>
+                    <cron_expr>32 11 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>intimes/stock::updateStock</model>
                 </run>
             </intimes_stock_update3>
+            <intimes_stock_update4>
+                <schedule>
+                    <cron_expr>32 16 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>intimes/stock::updateStock</model>
+                </run>
+            </intimes_stock_update4>
         </jobs>
     </crontab>
 </config>

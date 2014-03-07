@@ -29,12 +29,20 @@
         <jobs>
             <ilxelle_stock_update1>
                 <schedule>
-                    <cron_expr>01 06 * * *</cron_expr>
+                    <cron_expr>48 01 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>ilxelle/stock::updateStock</model>
                 </run>
             </ilxelle_stock_update1>
+            <ilxelle_stock_update2>
+                <schedule>
+                    <cron_expr>48 05 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ilxelle/stock::updateStock</model>
+                </run>
+            </ilxelle_stock_update2>
         </jobs>
     </crontab>
 </config>
