@@ -70,11 +70,14 @@
 				<?php endif ?>
 				
 			<?php echo $_menu ?>
+
+            <?php if (Mage::app()->getStore()->getId() == 1): ?>
             <li class="home">
                 <a href="<?php echo $this->getUrl('')?>blog" title="Home">
                     <span><?php echo $this->__('Blog')?></span>
                 </a>
             </li>
+            <?php endif ?>
 		</ul>
 	</div>
 </div>
