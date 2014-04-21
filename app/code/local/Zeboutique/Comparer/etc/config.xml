@@ -13,5 +13,23 @@
                 </rewrite>
             </comparer>
         </blocks>
+        <helpers>
+            <comparer>
+                <rewrite>
+                    <collect>Zeboutique_Comparer_Helper_Collect</collect>
+                </rewrite>
+            </comparer>
+        </helpers>
     </global>
+    <default>
+        <comparer>
+            <transcodage_categories>
+                <pure>pure-shopping.csv</pure>
+                <legu></legu>
+            </transcodage_categories>
+            <path>
+                <csv>app/code/local/Zeboutique/Comparer/etc/</csv>
+            </path>
+        </comparer>
+    </default>
 </config>
