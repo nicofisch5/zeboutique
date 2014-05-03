@@ -34,6 +34,9 @@
  */
 class Zeboutique_Comparer_Helper_Collect extends Dredd_Comparer_Helper_Collect
 {
+
+    const TRANSCO_DATA_EMPTY = 'EMPTY';
+
     /**
      *
      * @param <type> $comparer
@@ -191,9 +194,14 @@ class Zeboutique_Comparer_Helper_Collect extends Dredd_Comparer_Helper_Collect
                             $value = Mage::helper('comparer')->formatHTML($value, $length);
 
                             // <Zeboutique>
-                            if ($value && count($transcoData)) {
-                                if (array_key_exists($value, $transcoData)) {
-                                    $value = $transcoData[$value];
+                            if (count($transcoData)) {
+                                if ($value) {
+                                    if (array_key_exists($value, $transcoData)) {
+                                        $value = $transcoData[$value];
+                                    }
+                                } elseif (array_key_exists(self::TRANSCO_DATA_EMPTY, $transcoData)) {
+                                    // Empty category
+                                    $value = $transcoData[self::TRANSCO_DATA_EMPTY];
                                 }
                             }
                             // </Zeboutique>

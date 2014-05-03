@@ -28,7 +28,7 @@
                 <legu></legu>
             </transcodage_categories>
             <path>
-                <csv>app/code/local/Zeboutique/Comparer/etc/</csv>
+                <csv>/var/www/zeboutique/app/code/local/Zeboutique/Comparer/etc/</csv>
             </path>
         </comparer>
     </default>
