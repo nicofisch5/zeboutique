@@ -25,7 +25,7 @@
         <comparer>
             <transcodage_categories>
                 <pure>pure-shopping.csv</pure>
-                <legu></legu>
+                <legu>leguide.csv</legu>
             </transcodage_categories>
             <path>
                 <csv>/var/www/zeboutique/app/code/local/Zeboutique/Comparer/etc/</csv>
