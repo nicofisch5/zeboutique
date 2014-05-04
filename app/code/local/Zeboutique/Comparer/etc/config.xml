@@ -26,6 +26,7 @@
             <transcodage_categories>
                 <pure>pure-shopping.csv</pure>
                 <legu>leguide.csv</legu>
+                <goog>google-shopping.csv</goog>
             </transcodage_categories>
             <path>
                 <csv>/var/www/zeboutique/app/code/local/Zeboutique/Comparer/etc/</csv>
