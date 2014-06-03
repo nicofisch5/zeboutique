@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Zeboutique_Core>
+            <version>0.1.0</version>
+        </Zeboutique_Core>
+    </modules>
+    <global>
+        <models>
+            <core>
+                <rewrite>
+                    <observer>Zeboutique_Core_Model_Observer</observer>
+                </rewrite>
+            </core>
+        </models>
+    </global>
+    <frontend>
+        <events>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <apca_core_config_cache>
+                        <type>singleton</type>
+                        <class>core/observer</class>
+                        <method>configureCache</method>
+                    </apca_core_config_cache>
+                </observers>
+            </core_block_abstract_to_html_before>
+        </events>
+    </frontend>
+</config>
