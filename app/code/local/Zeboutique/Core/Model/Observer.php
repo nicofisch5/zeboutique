@@ -55,6 +55,7 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
     const REQ_SECURE = 'REQSECURE';
     const CURRENT_CATEGORY='CURCATEGORY';
     const CURRENT_PRODUCT='CURPRODUCT';
+    const PARAM='PARAM';
 
     /**
      * Add block caching
@@ -70,10 +71,19 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
         $work = false;
 
         switch ($bc) {
+            // Block to exclude
             case 'Mage_Core_Model_Layout_Element':
             case 'Mage_Page_Block_Template_Links':
+            case 'Mage_Checkout_Block_Cart_Sidebar':
                 $work = false;
                 break;
+
+            // Home
+            case 'Zeon_Manufacturer_Block_Home':
+            case 'Magentothem_Featuredproductvertscroller_Block_Featuredproductvertscroller':
+            case 'Magentothem_Mostviewedproduct_Block_Mostviewedproduct':
+            case 'Magentothem_Newproductslider_Block_Newproductslider':
+            case 'Magentothem_Banner7_Block_Banner7':
 
             // Product page
             case 'Mage_Catalog_Block_Product_View':
@@ -86,22 +96,22 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
             case 'Mage_Catalog_Block_Product_List_Upsell':
             case 'Mage_Catalog_Block_Product_View_Attributes':
             case 'Mage_Review_Block_Product_View_List':
+            case 'Mage_Catalog_Block_Layer_View':
 
-            case 'Zeon_Manufacturer_Block_Home':
-            case 'Magentothem_Featuredproductvertscroller_Block_Featuredproductvertscroller':
-            case 'Magentothem_Mostviewedproduct_Block_Mostviewedproduct':
-            case 'Magentothem_Newproductslider_Block_Newproductslider':
-            case 'Magentothem_Banner7_Block_Banner7':
+            // Category page
+            case 'Mage_Catalog_Block_Category_View':
+            case 'Mage_Catalog_Block_Product_List':
+            case 'Magentothem_Verticalmenu_Block_Verticalmenu':
+            case 'Amasty_Review_Block_Sidebar':
+
+            // All pages
+            case 'Fishpig_Wordpress_Block_Menu':
             case 'Fishpig_Wordpress_Block_Post_Associated':
             case 'IG_Cmslevels_Block_Cms_Page':
             case 'Pw_Twittercard_Block_Twittercard':
             case 'Mage_Page_Block_Html_Topmenu':
             case 'Mage_Page_Block_Html_Footer':
             case 'Mage_Cms_Block_Block':
-            case 'Mage_Catalog_Block_Category_View':
-            case 'Mage_Catalog_Block_Product_List':
-            case 'Fishpig_Wordpress_Block_Menu':
-            case 'Mage_Checkout_Block_Cart_Sidebar':
             case 'Mage_Page_Block_Template_Links':
             case 'Mage_Page_Block_Switch':
             case 'Mage_Page_Block_Html_Head':
@@ -185,7 +195,6 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
             switch ($bc) {
                 //les classes pour lesquelles on n'a pas besoin de rajouter d'info
                 //case 'Apca_Page_Block_Html_Topmenu':
-                case 'Mage_Checkout_Block_Cart_Sidebar':
                 case 'Mage_Cms_Block_Block':
                 case 'Mage_Core_Block_Text_List':
                 case 'Mage_Page_Block_Template_Links':
@@ -207,12 +216,26 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
                 case 'Mage_Catalog_Block_Product_List_Upsell':
                 case 'Mage_Catalog_Block_Product_View_Attributes':
                 case 'Mage_Review_Block_Product_View_List':
+                case 'Mage_Catalog_Block_Layer_View':
+                case 'Magentothem_Verticalmenu_Block_Verticalmenu':
+                case 'Amasty_Review_Block_Sidebar':
                     $curcat=Mage::registry('current_category');
                     $curprod=Mage::registry('current_product');
                     $curcatid=!is_null($curcat)?$curcat->getId():"";
                     $curprodid=!is_null($curprod)?$curprod->getId():"";
                     $key.=self::SEP.self::BOF.self::CURRENT_CATEGORY.$curcatid.self::EOF.self::CURRENT_CATEGORY;
                     $key.=self::SEP.self::BOF.self::CURRENT_PRODUCT.$curprodid.self::EOF.self::CURRENT_PRODUCT;
+
+                    $request = Mage::app()->getRequest();
+                    if ($params = $request->getParams()) {
+                        foreach ($params as $paramName => $paramValue) {
+                            if ($paramName == 'id') {
+                                continue;
+                            }
+                            $key.=self::SEP.self::BOF.self::PARAM.$paramName.$paramValue.self::EOF;
+                        }
+                    }
+
                 case 'Mage_Core_Block_Template':
                     if ($tfile == 'frontend/default/apca/emplate/catalogsearch/form.mini.phtml') {
                         $reqsec = Mage::app()->getFrontController()->getRequest()->isSecure() ? 1 : 0;
