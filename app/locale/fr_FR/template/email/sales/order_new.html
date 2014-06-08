@@ -38,6 +38,16 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <p style="font-size:12px; line-height:16px; margin:0;">Si vous souhaitez suivre votre commande,  <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">connectez-vous à votre compte</a>.                      </p>
                     <p style="font-size:12px; line-height:16px; margin:0;">&nbsp;</p>
                     <p style="font-size:12px; line-height:16px; margin:0;">Si vous avez des questions au sujet de votre commande, n'hésitez pas à nous contacter sur <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> ou bien appelez-nous au <span class="nobr">{{config path='general/store_information/phone'}}</span> du lundi au vendredi, de 9h  à 18h. </p>
+
+                    <p style="font-size:12px; line-height:16px; margin:0;">
+                        Rappel des informations renforcées :
+                        <ul>
+                            <li>Les frais de renvoi en cas  de retour ou de rétractation sont à la charge du client.</li>
+                            <li>Le délai de rétraction est de 14 jours (colis complet et d'origine) <a href="{{store url="/retractation/"}}" style="color:#1E7EC8;">{{store url="/retractation/"}}</a></li>
+                            <li>Le délai de retour est de 14 jours <a href="{{store url="/customer-service/"}}" style="color:#1E7EC8;">{{store url="/customer-service/"}}</a></li>
+                        </ul>
+                    <p>
+
                     <p align="center" style="font-size:12px; line-height:16px; margin:0;"><br>
                   Votre confirmation de commande est ci-dessous.</p>
               </tr>
@@ -99,8 +109,15 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                 </td>
             </tr>
             <tr>
-                <td bgcolor="#EAEAEA" align="center" style="background:#dcdcdc; text-align:center;"><center>
-                  <p style="font-size:12px; margin:0;"><span style="font-size:12px; line-height:16px; margin:0;">Merci encore de votre achat</span>.<br> L'équipe <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                <td bgcolor="#EAEAEA" align="center" style="background:#dcdcdc; text-align:center;">
+                    <center>
+                        <p style="font-size:12px; margin:0;">
+                            <span style="font-size:12px; line-height:16px; margin:0;">Merci encore de votre achat</span>.
+                            <br /> L'équipe <strong>{{var store.getFrontendName()}}</strong>
+                            <br />{{var store.getAddress()}}
+                        </p>
+                    </center>
+                </td>
             </tr>
         </table>
     </td>
