@@ -136,17 +136,16 @@
         </fieldset>
     </form>
     <div class="cart-collaterals row-fluid">
-
-        <div class="col-1 span4">
-            <?php echo $this->getChildHtml('crosssell') ?>
-        </div>
-        <div class="col-2 span4">
+        <div class="col-2 span6">
             <?php /* Extensions placeholder */ ?>
+            <?php echo $this->getChildHtml('crosssell') ?>
             <?php echo $this->getChildHtml('checkout.cart.extra') ?>
             <?php echo $this->getChildHtml('coupon') ?>
+            <?php echo $this->getChildHtml('cart_payment_logos') ?>
             <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
         </div>
-        <div class="totals span4">
+
+        <div class="totals span6">
             <?php echo $this->getChildHtml('totals'); ?>
             <?php if(!$this->hasError()): ?>
             <ul class="checkout-types">
