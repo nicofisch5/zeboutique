@@ -47,10 +47,9 @@ Default layout, loads most of the pages
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <!-- Mage_Catalog -->
-        <reference name="left">
+        <!--reference name="left">
             <block type="catalog/product_compare_sidebar" after="cart_sidebar" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
-            
-        </reference>
+        </reference-->
         <reference name="footer_links">
             <action method="addLink" translate="label title" module="catalog" ifconfig="catalog/seo/site_map"><label>Site Map</label><url helper="catalog/map/getCategoryUrl" /><title>Site Map</title></action>
         </reference>
