@@ -67,7 +67,7 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
         $evt = $observer->getData('event');
         $block = $evt->getData('block');
         $bc = get_class($block);
-        Mage::log('CONFIGURE CACHE : '.$bc);
+        //Mage::log('CONFIGURE CACHE : '.$bc);
         $work = false;
 
         switch ($bc) {
