@@ -87,6 +87,9 @@ Default layout, loads most of the pages
 
                 <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml"/>
 
+                <block type="cms/block" name="cart_payment_logos">
+                    <action method="setBlockId"><block_id>payment</block_id></action>
+                </block>
                 <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
             </block>
         </reference>
