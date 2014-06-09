@@ -355,6 +355,9 @@ One page checkout progress block
             <block type="checkout/onepage_payment_info" name="payment_info">
                 <action method="setInfoTemplate"><method></method><template></template></action>
             </block>
+            <block type="cms/block" name="progress_payment_logos">
+                <action method="setBlockId"><block_id>payment</block_id></action>
+            </block>
         </block>
     </checkout_onepage_progress>
 
