@@ -111,6 +111,13 @@
         <?php endif; ?>
         <?php endif; ?>
 
+            <!--dt class="complete">
+                <?php //echo $this->__('Store information:') ?>
+            </dt-->
+            <dd class="complete">
+                <?php echo nl2br(Mage::getStoreConfig('general/store_information/fee_information')); ?>
+            </dd>
+
             <dt class="complete">
                 <?php echo $this->__('Store information:') ?>
             </dt>
