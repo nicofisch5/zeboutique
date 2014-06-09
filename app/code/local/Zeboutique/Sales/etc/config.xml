@@ -37,6 +37,7 @@
          <models>
             <sales>
                 <rewrite>
+                    <order>Zeboutique_Sales_Model_Order</order>
                     <order_pdf_invoice>Zeboutique_Sales_Model_Order_Pdf_Invoice</order_pdf_invoice>
                 </rewrite>
             </sales>
