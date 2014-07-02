@@ -81,9 +81,9 @@
     </be2bill_checkout_oneclick_info>
 
     <catalog_product_view>
-        <reference name="head">
+        <!--reference name="head">
             <action method="addItem"><type>skin_css</type><name>css/be2bill/product.css</name></action>
-        </reference>
+        </reference-->
         <reference name="product.info.addtocart">
             <block type="be2bill/checkout_oneclick_product" name="be2bill.checkout.oneclick.product" before="catalog.product.related" template="be2bill/checkout/oneclick/product.phtml" />
         </reference>

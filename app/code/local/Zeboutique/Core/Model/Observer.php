@@ -75,6 +75,9 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
             case 'Mage_Core_Model_Layout_Element':
             case 'Mage_Page_Block_Template_Links':
             case 'Mage_Checkout_Block_Cart_Sidebar':
+            case 'Mage_Core_Block_Text_List':
+            case 'Mage_Cms_Block_Block':
+            case 'IG_Cmslevels_Block_Cms_Page':
                 $work = false;
                 break;
 
@@ -107,11 +110,9 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
             // All pages
             case 'Fishpig_Wordpress_Block_Menu':
             case 'Fishpig_Wordpress_Block_Post_Associated':
-            case 'IG_Cmslevels_Block_Cms_Page':
             case 'Pw_Twittercard_Block_Twittercard':
             case 'Mage_Page_Block_Html_Topmenu':
             case 'Mage_Page_Block_Html_Footer':
-            case 'Mage_Cms_Block_Block':
             case 'Mage_Page_Block_Template_Links':
             case 'Mage_Page_Block_Switch':
             case 'Mage_Page_Block_Html_Head':
@@ -144,16 +145,6 @@ class Zeboutique_Core_Model_Observer extends Mage_Core_Model_Observer
                     $work=true;
                 }
                 break;
-            case 'Mage_Core_Block_Text_List':
-                $nil = $block->getNameInLayout();
-                if ($nil == 'checkout.links') {
-                    $work = true;
-                }
-            case 'Mage_Cms_Block_Block':
-                $nil = $block->getNameInLayout();
-                if ($nil == 'top.navigation.links') {
-                    $work = true;
-                }
             default:
                 break;
         }
